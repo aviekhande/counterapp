@@ -43,6 +43,10 @@ class _HomeScreenState extends State<HomeScreen> {
                         Color.fromARGB(255, 114, 182, 214)),
                     minimumSize: WidgetStatePropertyAll(Size(300, 50))),
                 onPressed: () {
+                  Navigator.push(
+                      context,
+                      MaterialPageRoute(
+                          builder: (context) => const PostScreen()));
                   context.read<PostsBloc>().add(const PostsEvent());
                 },
                 child: const Text(

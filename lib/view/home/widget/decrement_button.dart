@@ -1,5 +1,5 @@
-import 'package:counterapp/bloc/counter_bloc.dart';
-import 'package:counterapp/bloc/counter_event.dart';
+import 'package:counterapp/bloc/home_bloc/counter_bloc.dart';
+import 'package:counterapp/bloc/home_bloc/counter_event.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 

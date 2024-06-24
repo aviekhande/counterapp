@@ -12,10 +12,10 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   void _onfetchpost(PostsEvent event, Emitter<PostsState> emit)async {
     emit(PostsLoading());
     Map posts= await GetPosts().getPostsData();
-    List<PostElement> posts1=[];
+    List<Posts> posts1=[];
     emit(PostsLoading());
-    for(int i=0;i<posts.length;i++){
-      posts1.add(PostElement(posts, id: posts["posts"][i]["id"], title: posts["posts"][i]["title"], body: posts["posts"][i]["body"], tags:  posts["posts"][i]["tags"], reactions:  Reactions(likes: posts["posts"][i]["reactions"]["likes"], dislikes: posts["posts"][i]["reactions"]["dislikes"]), views:  posts["posts"][i]["views"], userId:  posts["posts"][i]["userId"]));
+    for(int i=0;i<posts["posts"].length;i++){
+      posts1.add(Posts.fromJson(posts["posts"][i]));
     }
     emit(PostsLoaded(posts1));
   }

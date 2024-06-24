@@ -4,7 +4,7 @@ sealed class PostsState extends Equatable {
   const PostsState();
   
   @override
-  List get props => [];
+  List<Object> get props => [];
 }
 
 final class PostsInitial extends PostsState {}
@@ -12,7 +12,7 @@ final class PostsInitial extends PostsState {}
 final class PostsLoading extends PostsState {}
 
 class PostsLoaded extends PostsState {
-  final List<PostElement> posts;
+  final List posts;
 
   const PostsLoaded(this.posts);
 }

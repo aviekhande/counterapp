@@ -2,7 +2,7 @@ import 'package:counterapp/model/getpost_model/getpost_model.dart';
 import 'package:flutter/material.dart';
 
 class MycontainerState extends StatefulWidget {
-  final PostElement postsData;
+  final Posts postsData;
   const MycontainerState({super.key, required this.postsData});
 
   @override
@@ -39,7 +39,7 @@ class __MycontainerStateState extends State<MycontainerState> {
                       const SizedBox(
                         height: 6,
                       ),
-                      Text(widget.postsData.title),
+                      Text("${widget.postsData.title}"),
                     ],
                   )),
                 ],
@@ -51,7 +51,7 @@ class __MycontainerStateState extends State<MycontainerState> {
                     "Content: ",
                     style: TextStyle(fontSize: 20),
                   ),
-                  Expanded(child: Text(widget.postsData.body)),
+                  Expanded(child: Text('${widget.postsData.body}')),
                 ],
               ),
               // Row(
@@ -71,7 +71,7 @@ class __MycontainerStateState extends State<MycontainerState> {
                         Icons.favorite,
                         color: Colors.red,
                       ),
-                      Text("${widget.postsData.reactions.likes}"),
+                      Text("${widget.postsData.reactions!.likes}"),
                       const Text("Likes")
                     ],
                   ),
@@ -83,7 +83,7 @@ class __MycontainerStateState extends State<MycontainerState> {
                       const Icon(
                         Icons.favorite_border_outlined,
                       ),
-                      Text("${widget.postsData.reactions.dislikes}"),
+                      Text("${widget.postsData.reactions!.dislikes}"),
                       const Text("DisLikes")
                     ],
                   ),

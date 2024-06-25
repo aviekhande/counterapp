@@ -1,6 +1,5 @@
 import 'package:counterapp/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/model/getproduct_model/getproduct_model.dart';
-import 'package:counterapp/view/static.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -40,33 +39,25 @@ class __MycontainerState extends State<Mycontainer> {
                   ),
                 ),
               ),
-              Row(
+              Column(
+                mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     "Title: ",
                     style: TextStyle(fontSize: 20),
                   ),
-                  Expanded(
-                      child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const SizedBox(
-                        height: 6,
-                      ),
-                      Text("${widget.productData.title}"),
-                    ],
-                  )),
+                  Text("${widget.productData.title}"),
                 ],
               ),
-              Row(
+              Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const Text(
                     "Description: ",
                     style: TextStyle(fontSize: 20),
                   ),
-                  Expanded(child: Text('${widget.productData.description}')),
+                  Text('${widget.productData.description}'),
                 ],
               ),
               Row(
@@ -75,16 +66,18 @@ class __MycontainerState extends State<Mycontainer> {
                     children: [
                       Row(
                         children: [
-                          const Text("Rating : "),
+                          const Text("Rating : ",
+                    style: TextStyle(fontSize: 20),),
                           Text("${widget.productData.rating?.rate}"),
                         ],
                       ),
                       const SizedBox(
-                        width: 10,
+                        width: 10, 
                       ),
                       Row(
                         children: [
-                          const Text("Count : "),
+                          const Text("Count : ",
+                    style: TextStyle(fontSize: 20),),
                           Text("${widget.productData.rating?.count}"),
                         ],
                       ),
@@ -96,15 +89,16 @@ class __MycontainerState extends State<Mycontainer> {
                       BlocBuilder<WishlistBloc, WishlistState>(
                         builder: (context, state) {
                           return GestureDetector(
-                            onTap: () {
-                              favlist.removeAt(widget.index);
-                              context.read<WishlistBloc>().add(WishListAdd(favlist));
-                            },
-                            child:const Icon(
-                                    Icons.favorite_outlined,
-                                    color: Colors.red,
-                                  ),
-                          );
+                              onTap: () {
+                                if(state is WishlistLoaded){
+                                  state.product.removeAt(widget.index);
+                                  context.read<WishlistBloc>().add(WishListAdd(state.product));
+                                }
+                              },
+                              child: const Icon(
+                                Icons.favorite_outlined,
+                                color: Colors.red,
+                              ));
                         },
                       ),
                       const Text("Wishlist")

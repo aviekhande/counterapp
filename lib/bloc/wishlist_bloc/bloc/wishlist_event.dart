@@ -6,6 +6,9 @@ sealed class WishlistEvent extends Equatable {
   @override
   List<Object> get props => [];
 }
+class WishListRemove extends WishlistEvent{
+  
+}
 // ignore: must_be_immutable
 class WishListAdd extends WishlistEvent{
   final List product;

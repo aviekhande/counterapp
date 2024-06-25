@@ -128,9 +128,9 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Color.fromARGB(255, 114, 182, 214)),
                             minimumSize: WidgetStatePropertyAll(Size(300, 50))),
                         onPressed: () {
-                          context
-                              .read<WishlistBloc>()
-                              .add(WishListAdd(favlist));                       
+                          // context
+                          //     .read<WishlistBloc>()
+                          //     .add(WishListAdd(favlist));                       
                           context.loaderOverlay.show();
                           Navigator.push(
                               context,

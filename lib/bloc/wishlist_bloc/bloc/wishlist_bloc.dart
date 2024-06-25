@@ -18,14 +18,33 @@ class WishlistBloc extends HydratedBloc<WishlistEvent, WishlistState> {
   }
   
   @override
-  WishlistLoaded? fromJson(Map<String, dynamic> json) {
-    Product pro=Product.fromJson(json);
-    return WishlistLoaded([pro]);
-
+  WishlistState? fromJson(Map<String, dynamic> json) {
+    try {
+      if (json['data'] != null && (json['data'] as List<dynamic>).isNotEmpty) {
+        List<Product> products = (json['data'] as List)
+            .map((e) => Product.fromJson(e as Map<String, dynamic>))
+            .toList();
+        return WishlistLoaded(products);
+      }
+      return WishlistInitial();
+    } catch (e) {
+      log("Error in fromJson: $e");
+      return WishlistInitial();
+    }
   }
-  
+
+  // @override
+  // Map<String, dynamic>? toJson(WishlistState state) {
+  //   if (state is WishlistLoaded) {
+  //     return {'data': state.product.map((e) => e.toJson()).toList()};
+  //   }
+  //   return {'data': []};
+  // }
   @override
   Map<String, dynamic>? toJson(WishlistState state) {
-    return {"":""};
+    if (state is WishlistLoaded) {
+      return {'data': state.product.map((e) => e.toJson()).toList()};
+    }
+    return {'data': []};
   }
 }

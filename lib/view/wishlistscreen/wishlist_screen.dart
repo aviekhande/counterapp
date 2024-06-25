@@ -15,7 +15,6 @@ class _ProductScreenState extends State<WishListScreen> {
 
   @override
   Widget build(BuildContext context) {
-    log("!!!!!!!!!!!!!!!!!!!!!!!!!!!");
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.blue,
@@ -29,6 +28,8 @@ class _ProductScreenState extends State<WishListScreen> {
               print("object");
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("all Data Fetch")));
+            }else{
+              Navigator.pop(context);
             }
           },
           builder: (context, state) {

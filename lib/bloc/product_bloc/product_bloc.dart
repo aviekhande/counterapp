@@ -10,26 +10,24 @@ part 'product_state.dart';
 //   ProductBloc() : super(ProductInitial()) {
 //     on<ProductEvent>(_onfetchpost);
 //   }
-//   void _onfetchpost(ProductEvent event, Emitter<ProductState> emit)async {
+//   void _onfetchpost(ProductEvent event, Emitter<ProductState> emit) async {
 //     emit(ProductLoading());
-//     List products= await GetProducts().getProductData();
-//     List<Product> products1=[];
+//     List products = await GetProducts().getProductData();
+//     List<Product> products1 = [];
 //     emit(ProductLoading());
-//     for(int i=0;i<products.length;i++){
+//     for (int i = 0; i < products.length; i++) {
 //       products1.add(Product.fromJson(products[i]));
 //     }
 //     emit(ProductLoaded(products1));
 //   }
-  
-//   @override
-//   ProductState? fromJson(Map<String, dynamic> json) { 
 
+//   @override
+//   ProductLoaded? fromJson(Map<String, dynamic> json) {
 //     throw UnimplementedError();
 //   }
-  
+
 //   @override
 //   Map<String, dynamic>? toJson(ProductState state) {
-  
 //     throw UnimplementedError();
 //   }
 // }
@@ -42,7 +40,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
     List products = await GetProducts().getProductData();
     List<Product> products1 = [];
     emit(ProductLoading());
-    for (int i = 0; i < products.length; i++) {
+    for (int i = 0; i < 4; i++) {
       products1.add(Product.fromJson(products[i]));
     }
     emit(ProductLoaded(products1));

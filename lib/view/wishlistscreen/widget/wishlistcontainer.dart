@@ -6,12 +6,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class Mycontainer extends StatefulWidget {
   final Product productData;
-  const Mycontainer({super.key, required this.productData});
+  final int index;
+  const Mycontainer({super.key, required this.productData,required this.index});
 
   @override
   State<Mycontainer> createState() => __MycontainerState();
 }
+
 class __MycontainerState extends State<Mycontainer> {
+  bool fav = false;
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -94,15 +97,13 @@ class __MycontainerState extends State<Mycontainer> {
                         builder: (context, state) {
                           return GestureDetector(
                             onTap: () {
-                             
-                          
-                              favlist.add(widget.productData);
+                              favlist.removeAt(widget.index);
                               context.read<WishlistBloc>().add(WishListAdd(favlist));
                             },
-                            child:  const Icon(
-                                    Icons.favorite_border,
-                                  )
-                                
+                            child:const Icon(
+                                    Icons.favorite_outlined,
+                                    color: Colors.red,
+                                  ),
                           );
                         },
                       ),

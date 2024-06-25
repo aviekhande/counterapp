@@ -12,13 +12,13 @@ class PostScreen extends StatefulWidget {
 
 class _PostScreenState extends State<PostScreen> {
 
-  @override
+  @override 
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
             backgroundColor: Colors.blue,
             title: const Text(
-              "Posts",
+              "Product",
               style: TextStyle(color: Colors.white),
             )),
         body: BlocConsumer<PostsBloc, PostsState>(

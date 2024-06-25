@@ -2,8 +2,8 @@
 // import 'package:counterapp/bloc/home_bloc/counter_state.dart';
 // import 'package:counterapp/view/employeeinfo/employee_screen.dart';
 // import 'package:counterapp/view/insertemployeedata/insertemployeedata.dart';
-import 'package:counterapp/bloc/posts_bloc/posts_bloc.dart';
-import 'package:counterapp/view/postscreen/postscreen.dart';
+import 'package:counterapp/bloc/product_bloc/product_bloc.dart';
+import 'package:counterapp/view/product/product_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
@@ -21,11 +21,11 @@ class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
-      child: BlocListener<PostsBloc, PostsState>(
+      child: BlocListener<ProductBloc, ProductState>(
           listener: (context, state) {
-            if (state is PostsLoaded) {
+            if (state is ProductLoaded) {
               Navigator.push(context,
-                  MaterialPageRoute(builder: (context) => const PostScreen()));
+                  MaterialPageRoute(builder: (context) => const ProductScreen()));
                   context.loaderOverlay.hide();
             }
           },
@@ -47,10 +47,10 @@ class _HomeScreenState extends State<HomeScreen> {
                       minimumSize: WidgetStatePropertyAll(Size(300, 50))),
                   onPressed: () {
                     context.loaderOverlay.show();
-                    context.read<PostsBloc>().add(const PostsEvent());
+                    context.read<ProductBloc>().add(const ProductEvent());
                   },
                   child: const Text(
-                    "Load Posts",
+                    "Load Products",
                     style: TextStyle(color: Colors.white, fontSize: 20),
                   ),
                 ),

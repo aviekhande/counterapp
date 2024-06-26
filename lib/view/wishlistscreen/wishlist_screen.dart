@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:counterapp/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/view/wishlistscreen/widget/wishlistcontainer.dart';
@@ -33,14 +32,14 @@ class _ProductScreenState extends State<WishListScreen> {
             }
           },
           builder: (context, state) {
-            final sucessState = state as WishlistLoaded;
-            return sucessState.product.isNotEmpty? ListView.builder(
-                itemCount: sucessState.product.length,
+            return state is WishlistLoaded? ListView.builder(
+                itemCount: state.product.length,
                 itemBuilder: (context, index) {
-                  return Mycontainer(productData: sucessState.product[index],index: index,);
+                  return Mycontainer(productData: state.product[index],index: index,);
                 }):
                 const Center(
-                  child: CircularProgressIndicator(),
+                  child: Text("No Wishlist found"),
+
                 );
           },
         ));

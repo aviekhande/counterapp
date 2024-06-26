@@ -33,13 +33,6 @@ class WishlistBloc extends HydratedBloc<WishlistEvent, WishlistState> {
     }
   }
 
-  // @override
-  // Map<String, dynamic>? toJson(WishlistState state) {
-  //   if (state is WishlistLoaded) {
-  //     return {'data': state.product.map((e) => e.toJson()).toList()};
-  //   }
-  //   return {'data': []};
-  // }
   @override
   Map<String, dynamic>? toJson(WishlistState state) {
     if (state is WishlistLoaded) {

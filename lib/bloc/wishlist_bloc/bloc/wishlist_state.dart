@@ -10,6 +10,6 @@ sealed class WishlistState extends Equatable {
 final class WishlistInitial extends WishlistState {}
 final class WishlistLoading extends WishlistState{}
 final class WishlistLoaded extends WishlistState{ 
-  final List product;
-  const WishlistLoaded(this.product, );
+  final List<Product> product;
+  const WishlistLoaded(this.product);
 }

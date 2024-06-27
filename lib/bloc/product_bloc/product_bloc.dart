@@ -1,3 +1,4 @@
+import 'package:counterapp/main.dart';
 import 'package:counterapp/model/getproduct_model/getproduct_model.dart';
 import 'package:counterapp/repository/getproduct_api/getproduct_api.dart';
 import 'package:equatable/equatable.dart';
@@ -11,7 +12,7 @@ class ProductBloc extends Bloc<ProductEvent, ProductState> {
   }
   void _onfetchpost(ProductEvent event, Emitter<ProductState> emit) async {
     emit(ProductLoading());
-    List<Product> products = await GetProducts().getProductData();
+    List<Product> products = await getIt<GetProducts>().getProductData();
     emit(ProductLoaded(products));
   }
 }

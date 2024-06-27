@@ -16,7 +16,7 @@ class GetProducts {
       }
       return productList1;
     } catch (e) {
-      log("$e!!!!!!!!!!!!!!!");
+      log("$e");
       throw Exception(e);
     }
   }

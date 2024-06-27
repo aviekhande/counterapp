@@ -7,11 +7,12 @@ sealed class WishlistEvent extends Equatable {
   List<Object> get props => [];
 }
 class WishListRemove extends WishlistEvent{
-  
+ final int? id;
+ const WishListRemove(this.id);
 }
 // ignore: must_be_immutable
 class WishListAdd extends WishlistEvent{
-  final List product;
+  final Product product;
 
   const WishListAdd(this.product);
 }

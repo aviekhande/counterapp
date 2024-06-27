@@ -6,7 +6,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class Mycontainer extends StatefulWidget {
   final Product productData;
   final int index;
-  const Mycontainer({super.key, required this.productData,required this.index});
+  const Mycontainer(
+      {super.key, required this.productData, required this.index});
 
   @override
   State<Mycontainer> createState() => __MycontainerState();
@@ -66,18 +67,22 @@ class __MycontainerState extends State<Mycontainer> {
                     children: [
                       Row(
                         children: [
-                          const Text("Rating : ",
-                    style: TextStyle(fontSize: 20),),
+                          const Text(
+                            "Rating : ",
+                            style: TextStyle(fontSize: 20),
+                          ),
                           Text("${widget.productData.rating?.rate}"),
                         ],
                       ),
                       const SizedBox(
-                        width: 10, 
+                        width: 10,
                       ),
                       Row(
                         children: [
-                          const Text("Count : ",
-                    style: TextStyle(fontSize: 20),),
+                          const Text(
+                            "Count : ",
+                            style: TextStyle(fontSize: 20),
+                          ),
                           Text("${widget.productData.rating?.count}"),
                         ],
                       ),
@@ -86,13 +91,19 @@ class __MycontainerState extends State<Mycontainer> {
                   const Spacer(),
                   Column(
                     children: [
-                      BlocBuilder<WishlistBloc, WishlistState>(
+                        BlocBuilder<WishlistBloc, WishlistState>(
                         builder: (context, state) {
                           return GestureDetector(
                               onTap: () {
-                                if(state is WishlistLoaded){
-                                  state.product.removeAt(widget.index);
-                                  context.read<WishlistBloc>().add(WishListAdd(state.product));
+                                if (state is WishlistLoaded) {
+                                  print("In Wishhhhhhhhh");
+                                  context.read<WishlistBloc>().add(
+                                      WishListRemove(widget.productData.id));
+                                  // context.read<WishlistBloc>().add(WishListAdd(state.product));
+                                  if (state.product.isEmpty) {
+                                    // context.read<WishlistBloc>().add(WishListRemove());
+                                  }
+                                  print(state.product.length);
                                 }
                               },
                               child: const Icon(

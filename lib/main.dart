@@ -1,12 +1,17 @@
+import 'package:counterapp/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/bloc/product_bloc/product_bloc.dart';
 import 'package:counterapp/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
+import 'package:counterapp/repository/getproduct_api/getproduct_api.dart';
 import 'package:counterapp/view/home/home_screen.dart';
+import 'package:counterapp/view/static.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get_it/get_it.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
+GetIt getIt = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   HydratedBloc.storage = await HydratedStorage.build(
@@ -14,6 +19,7 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+  locator();
   runApp(const MainApp());
 }
 
@@ -27,11 +33,19 @@ class MainApp extends StatelessWidget {
           create: (context) => ProductBloc(),
         ),
         BlocProvider(
-          create: (context) => WishlistBloc(),
+          create: (context) => WishlistBloc(productrepo: getIt()),
+        ),
+         BlocProvider(
+          create: (context) => InternetBloc(),
         ),
       ],
       child: const MaterialApp(
-          debugShowCheckedModeBanner: false, home: HomeScreen()),
+          debugShowCheckedModeBanner: false, 
+          home: HomeScreen()),
     );
   }
+}
+void locator(){
+  getIt.registerLazySingleton(()=> GetProducts());
+  getIt.registerLazySingleton(()=> ProductRepo());
 }

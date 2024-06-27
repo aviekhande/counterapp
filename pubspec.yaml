@@ -8,10 +8,12 @@ environment:
 
 dependencies:
   bloc: ^8.1.4
+  connectivity_plus: ^6.0.3
   equatable: ^2.0.5
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  get_it: ^7.7.0
   http: ^1.2.1
   hydrated_bloc: ^9.1.5
   loader_overlay: ^4.0.0

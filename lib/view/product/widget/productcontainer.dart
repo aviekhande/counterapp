@@ -1,6 +1,6 @@
+import 'package:counterapp/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/model/getproduct_model/getproduct_model.dart';
-import 'package:counterapp/view/static.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -13,6 +13,22 @@ class Mycontainer extends StatefulWidget {
 }
 
 class __MycontainerState extends State<Mycontainer> {
+  late InternetBloc internetBloc;
+
+  @override
+  void initState() {
+   internetBloc = context.read<InternetBloc>();
+    internetBloc.checkInternet();
+    internetBloc.trackConnectivityChange();
+    super.initState();
+  }
+
+  @override
+  void dispose() {
+    internetBloc.dispose();
+    super.dispose();
+  }
+
   @override
   Widget build(BuildContext context) {
     return Container(
@@ -89,10 +105,10 @@ class __MycontainerState extends State<Mycontainer> {
                         builder: (context, state) {
                           return GestureDetector(
                               onTap: () {
-                                favlist.add(widget.productData);
+                                // favlist.add(widget.productData);
                                 context
                                     .read<WishlistBloc>()
-                                    .add(WishListAdd(favlist));
+                                    .add(WishListAdd(widget.productData));
                               },
                               child: const Icon(
                                 Icons.favorite_border,

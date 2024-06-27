@@ -1,3 +1,4 @@
+import 'package:counterapp/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/bloc/product_bloc/product_bloc.dart';
 import 'package:counterapp/repository/getproduct_api/getproduct_api.dart';
 import 'package:counterapp/view/product/widget/productcontainer.dart';
@@ -20,32 +21,38 @@ class _ProductScreenState extends State<ProductScreen> {
               "Product",
               style: TextStyle(color: Colors.white),
             )),
-        body: BlocConsumer<ProductBloc, ProductState>(
-          listener: (context, state) {
-            if (state is ProductLoaded) {
-              print("object");
-              ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("all Data Fetch")));
-            }
-          },
+        body: BlocBuilder<InternetBloc, InternetStatus>(
           builder: (context, state) {
-            return FutureBuilder(
-                future: GetProducts().getProductData(),
-                builder: (context, snapshot) {
-                  if (snapshot.hasData) {
-                    final sucessState = state as ProductLoaded;
-                    return ListView.builder(
-                        itemCount: sucessState.product.length,
-                        itemBuilder: (context, index) {
-                          return Mycontainer(
-                              productData: sucessState.product[index]);
-                        });
-                  } else {
-                    return const Center(
-                      child: CircularProgressIndicator(),
-                    );
-                  }
-                });
+            return state.status == ConnectivityStatus.connected?
+             BlocConsumer<ProductBloc, ProductState>(
+              listener: (context, state) {
+                if (state is ProductLoaded) {
+                  ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(content: Text("all Data Fetch")));
+                }
+              },
+              builder: (context, state) {
+                return FutureBuilder(
+                    future: GetProducts().getProductData(),
+                    builder: (context, snapshot) {
+                      if (snapshot.hasData) {
+                        final sucessState = state as ProductLoaded;
+                        return ListView.builder(
+                            itemCount: sucessState.product.length,
+                            itemBuilder: (context, index) {
+                              return Mycontainer(
+                                  productData: sucessState.product[index]);
+                            });
+                      } else {
+                        return const Center(
+                          child: CircularProgressIndicator(),
+                        );
+                      }
+                    });
+              },
+            ) :const Center(
+                        child: Text("No Internet Connection"),
+                      );
           },
         ));
   }

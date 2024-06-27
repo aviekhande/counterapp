@@ -50,73 +50,97 @@ class _HomeScreenState extends State<HomeScreen> {
               context.loaderOverlay.hide();
             }
           },
-          child: BlocListener<InternetBloc, InternetStatus>(
+          child: BlocConsumer<InternetBloc, InternetStatus>(
             listener: (context, state) {
               if (state.status == ConnectivityStatus.disconnected) {
                 ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
                     content: Text("Please connect to Internet")));
               }
             },
-            child: Scaffold(
-                backgroundColor: Colors.white,
-                appBar: AppBar(
-                  backgroundColor: Colors.blue,
-                  title: const Text(
-                    "HomeScreen",
-                    style: TextStyle(color: Colors.white),
+            builder: (context, state) {
+              return Scaffold(
+                  backgroundColor: Colors.white,
+                  appBar: AppBar(
+                    backgroundColor: Colors.blue,
+                    title: const Text(
+                      "HomeScreen",
+                      style: TextStyle(color: Colors.white),
+                    ),
                   ),
-                ),
-                body: Column(
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  children: [
-                    Center(
-                      child: ElevatedButton(
-                        style: const ButtonStyle(
-                            backgroundColor: WidgetStatePropertyAll(
-                                Color.fromARGB(255, 114, 182, 214)),
-                            minimumSize: WidgetStatePropertyAll(Size(300, 50))),
-                        onPressed: () {
-                          context.loaderOverlay.show();
-                          context.read<ProductBloc>().add(const ProductEvent());
-                        },
-                        child: const Text(
-                          "Load Products",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                  body: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
+                    children: [
+                      Center(
+                        child: ElevatedButton(
+                          style: const ButtonStyle(
+                              backgroundColor: WidgetStatePropertyAll(
+                                  Color.fromARGB(255, 114, 182, 214)),
+                              minimumSize:
+                                  WidgetStatePropertyAll(Size(300, 50))),
+                          onPressed: () {
+                            if (state.status ==
+                                ConnectivityStatus.disconnected) {
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                  const SnackBar(
+                                      content:
+                                          Text("Please connect to Internet")));
+                            } else {
+                              context.loaderOverlay.show();
+                              context
+                                  .read<ProductBloc>()
+                                  .add(const ProductEvent());
+                            }
+                          },
+                          child: const Text(
+                            "Load Products",
+                            style: TextStyle(color: Colors.white, fontSize: 20),
+                          ),
                         ),
                       ),
-                    ),
-                    const SizedBox(
-                      height: 20,
-                    ),
-                    Center(
-                      child: BlocBuilder<WishlistBloc, WishlistState>(
-                        builder: (context, state) {
-                          return ElevatedButton(
-                            style: const ButtonStyle(
-                                backgroundColor: WidgetStatePropertyAll(
-                                    Color.fromARGB(255, 114, 182, 214)),
-                                minimumSize:
-                                    WidgetStatePropertyAll(Size(300, 50))),
-                            onPressed: () {
-                              context.loaderOverlay.show();
-                              Navigator.push(
-                                  context,
-                                  MaterialPageRoute(
-                                      builder: (context) =>
-                                          const WishListScreen()));
-                              context.loaderOverlay.hide();
-                            },
-                            child: const Text(
-                              "Load WishList Products",
-                              style:
-                                  TextStyle(color: Colors.white, fontSize: 20),
-                            ),
-                          );
-                        },
+                      const SizedBox(
+                        height: 20,
                       ),
-                    ),
-                  ],
-                )),
+                      Center(
+                        child: BlocBuilder<WishlistBloc, WishlistState>(
+                          builder: (context, state) {
+                            return BlocBuilder<InternetBloc, InternetStatus>(
+                              builder: (context, state) {
+                                return ElevatedButton(
+                                  style: const ButtonStyle(
+                                      backgroundColor: WidgetStatePropertyAll(
+                                          Color.fromARGB(255, 114, 182, 214)),
+                                      minimumSize: WidgetStatePropertyAll(
+                                          Size(300, 50))),
+                                  onPressed: () {
+                                    if (state.status ==
+                                        ConnectivityStatus.disconnected) {
+                                      ScaffoldMessenger.of(context)
+                                          .showSnackBar(const SnackBar(
+                                              content: Text(
+                                                  "Please connect to Internet")));
+                                    } else{
+                                    context.loaderOverlay.show();
+                                    Navigator.push(
+                                        context,
+                                        MaterialPageRoute(
+                                            builder: (context) =>
+                                                const WishListScreen()));}
+                                    context.loaderOverlay.hide();
+                                  },
+                                  child: const Text(
+                                    "Load WishList Products",
+                                    style: TextStyle(
+                                        color: Colors.white, fontSize: 20),
+                                  ),
+                                );
+                              },
+                            );
+                          },
+                        ),
+                      ),
+                    ],
+                  ));
+            },
           )),
     );
   }

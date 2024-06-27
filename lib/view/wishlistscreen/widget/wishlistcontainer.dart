@@ -17,7 +17,8 @@ class __MycontainerState extends State<Mycontainer> {
   bool fav = false;
   @override
   Widget build(BuildContext context) {
-    return Container(
+    return 
+    Container(
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -96,13 +97,15 @@ class __MycontainerState extends State<Mycontainer> {
                           return GestureDetector(
                               onTap: () {
                                 if (state is WishlistLoaded) {
-                                  print("In Wishhhhhhhhh");
                                   context.read<WishlistBloc>().add(
                                       WishListRemove(widget.productData.id));
+                                      setState(() {
+                                        
+                                      });
                                   // context.read<WishlistBloc>().add(WishListAdd(state.product));
-                                  if (state.product.isEmpty) {
-                                    // context.read<WishlistBloc>().add(WishListRemove());
-                                  }
+                                  // if (state.product.isEmpty) {
+                                  // context.read<WishlistBloc>().add(WishListRemove());
+                                  // }
                                   print(state.product.length);
                                 }
                               },

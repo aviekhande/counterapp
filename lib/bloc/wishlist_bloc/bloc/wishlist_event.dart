@@ -16,3 +16,8 @@ class WishListAdd extends WishlistEvent{
 
   const WishListAdd(this.product);
 }
+
+class WishlistClicked extends WishlistEvent{
+  final int id;
+  const WishlistClicked(this.id);
+}

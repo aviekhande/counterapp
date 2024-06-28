@@ -11,7 +11,7 @@ class GetPosts {
       var empList1 = await (jsonDecode(response.body));
       postList = empList1;
       log("$postList");
-      return postList; 
+      return postList;
     } catch (e) {
       log("$e");
     }

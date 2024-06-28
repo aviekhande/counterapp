@@ -17,7 +17,7 @@ class __MycontainerState extends State<Mycontainer> {
 
   @override
   void initState() {
-   internetBloc = context.read<InternetBloc>();
+    internetBloc = context.read<InternetBloc>();
     internetBloc.checkInternet();
     internetBloc.trackConnectivityChange();
     super.initState();
@@ -77,22 +77,35 @@ class __MycontainerState extends State<Mycontainer> {
               ),
               Row(
                 children: [
+                  const Text(
+                    "Price : ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Text("${widget.productData.price}"),
+                ],
+              ),
+              Row(
+                children: [
                   Column(
                     children: [
                       Row(
                         children: [
-                          const Text("Rating : ",
-                    style: TextStyle(fontSize: 20),),
+                          const Text(
+                            "Rating : ",
+                            style: TextStyle(fontSize: 20),
+                          ),
                           Text("${widget.productData.rating?.rate}"),
                         ],
                       ),
                       const SizedBox(
-                        width: 10, 
+                        width: 10,
                       ),
                       Row(
                         children: [
-                          const Text("Count : ",
-                    style: TextStyle(fontSize: 20),),
+                          const Text(
+                            "Count : ",
+                            style: TextStyle(fontSize: 20),
+                          ),
                           Text("${widget.productData.rating?.count}"),
                         ],
                       ),
@@ -105,18 +118,27 @@ class __MycontainerState extends State<Mycontainer> {
                         builder: (context, state) {
                           return GestureDetector(
                               onTap: () {
-                                // favlist.add(widget.productData);
+                                !(state is WishlistLoaded &&
+                                      state.product
+                                          .contains(widget.productData))
+                                  ? 
                                 context
                                     .read<WishlistBloc>()
-                                    .add(WishListAdd(widget.productData));
-                                    // context
-                                    // .read<WishlistBloc>()
-                                    // .add(WishlistClicked(widget.productData.id!));
+                                    .add(WishListAdd(widget.productData)): context
+                                        .read<WishlistBloc>()
+                                        .add(WishListRemove(widget.productData.id));
+                             
                               },
-                              child: const Icon(
-                                Icons.favorite_border,
-                                
-                              ));
+                              child: !(state is WishlistLoaded &&
+                                      state.product
+                                          .contains(widget.productData))
+                                  ? const Icon(
+                                      Icons.favorite_border,
+                                    )
+                                  : const Icon(
+                                      Icons.favorite_outlined,
+                                      color: Colors.red,
+                                    ));
                         },
                       ),
                       const Text("Wishlist")

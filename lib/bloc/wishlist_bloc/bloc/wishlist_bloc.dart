@@ -14,11 +14,22 @@ class WishlistBloc extends HydratedBloc<WishlistEvent, WishlistState> {
   }
   void addWishList(WishListAdd event, Emitter<WishlistState> emit) {
     log("In WishlistLoaded");
+    final currentState = state;
+
     emit(WishlistLoaded(productrepo.addProduct(event.product)));
+    if (currentState is WishlistLoaded) {}
   }
 
   void removeWishList(WishListRemove event, Emitter<WishlistState> emit) {
-    emit(WishlistLoaded(productrepo.removeProduct(event.id)));
+    final currentState = state;
+    if (currentState is WishlistLoaded) {
+      if (currentState.product.length != 1) {
+        emit(WishlistLoaded(productrepo.removeProduct(event.id)));
+      } else {
+        emit(WishlistInitial());
+      }
+    }
+    // emit(WishlistLoaded(productrepo.removeProduct(event.id)));
   }
 
   @override
@@ -28,8 +39,7 @@ class WishlistBloc extends HydratedBloc<WishlistEvent, WishlistState> {
         List<Product> products = (json['data'] as List)
             .map((e) => Product.fromJson(e as Map<String, dynamic>))
             .toList();
-        print("${products.length}@@@@@@@");
-        ProductRepo().favlist=products;
+        productrepo.favlist = products;
         return WishlistLoaded(products);
       }
       return WishlistInitial();
@@ -43,7 +53,8 @@ class WishlistBloc extends HydratedBloc<WishlistEvent, WishlistState> {
   Map<String, dynamic>? toJson(WishlistState state) {
     if (state is WishlistLoaded) {
       var aa = {'data': state.product.map((e) => e.toJson()).toList()};
-      print("$aa");
+      productrepo.favlist =
+          aa["data"]!.map((e) => Product.fromJson(e)).toList();
       return aa;
     }
     return {'data': []};

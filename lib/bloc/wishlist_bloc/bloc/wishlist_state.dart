@@ -1,15 +1,12 @@
 part of 'wishlist_bloc.dart';
 
-sealed class WishlistState extends Equatable {
-  const WishlistState();
+sealed class WishlistState  {
   
-  @override
-  List<Object> get props => [];
 }
 
 final class WishlistInitial extends WishlistState {}
-final class WishlistLoading extends WishlistState{}
+
 final class WishlistLoaded extends WishlistState{ 
   final List<Product> product;
-  const WishlistLoaded(this.product);
+  WishlistLoaded(this.product);
 }

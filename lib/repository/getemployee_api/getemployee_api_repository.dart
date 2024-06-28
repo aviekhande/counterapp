@@ -1,9 +1,10 @@
 import 'dart:convert';
 import 'dart:developer';
 import 'package:http/http.dart' as http;
-class GetEmpInfo{
+
+class GetEmpInfo {
   List empList = [];
-   Future getempdata() async {
+  Future getempdata() async {
     try {
       var url = Uri.parse("https://dummy.restapiexample.com/api/v1/employees");
       var response = await http.get(url);

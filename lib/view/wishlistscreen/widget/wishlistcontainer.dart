@@ -17,8 +17,7 @@ class __MycontainerState extends State<Mycontainer> {
   bool fav = false;
   @override
   Widget build(BuildContext context) {
-    return 
-    Container(
+    return Container(
       padding: const EdgeInsets.all(8),
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
@@ -64,6 +63,15 @@ class __MycontainerState extends State<Mycontainer> {
               ),
               Row(
                 children: [
+                  const Text(
+                    "Price : ",
+                    style: TextStyle(fontSize: 20),
+                  ),
+                  Text("${widget.productData.price}"),
+                ],
+              ),
+              Row(
+                children: [
                   Column(
                     children: [
                       Row(
@@ -92,20 +100,13 @@ class __MycontainerState extends State<Mycontainer> {
                   const Spacer(),
                   Column(
                     children: [
-                        BlocBuilder<WishlistBloc, WishlistState>(
+                      BlocBuilder<WishlistBloc, WishlistState>(
                         builder: (context, state) {
                           return GestureDetector(
                               onTap: () {
                                 if (state is WishlistLoaded) {
                                   context.read<WishlistBloc>().add(
                                       WishListRemove(widget.productData.id));
-                                      setState(() {
-                                        
-                                      });
-                                  // context.read<WishlistBloc>().add(WishListAdd(state.product));
-                                  // if (state.product.isEmpty) {
-                                  // context.read<WishlistBloc>().add(WishListRemove());
-                                  // }
                                   print(state.product.length);
                                 }
                               },

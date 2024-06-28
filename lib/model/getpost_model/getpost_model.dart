@@ -10,7 +10,7 @@ class Post {
     if (json['posts'] != null) {
       posts = <Posts>[];
       json['posts'].forEach((v) {
-        posts!.add( Posts.fromJson(v));
+        posts!.add(Posts.fromJson(v));
       });
     }
     total = json['total'];
@@ -19,7 +19,7 @@ class Post {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data ={};
+    final Map<String, dynamic> data = {};
     if (posts != null) {
       data['posts'] = posts!.map((v) => v.toJson()).toList();
     }
@@ -87,7 +87,7 @@ class Reactions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data ={};
+    final Map<String, dynamic> data = {};
     data['likes'] = likes;
     data['dislikes'] = dislikes;
     return data;

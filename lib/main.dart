@@ -35,17 +35,17 @@ class MainApp extends StatelessWidget {
         BlocProvider(
           create: (context) => WishlistBloc(productrepo: getIt()),
         ),
-         BlocProvider(
+        BlocProvider(
           create: (context) => InternetBloc(),
         ),
       ],
       child: const MaterialApp(
-          debugShowCheckedModeBanner: false, 
-          home: HomeScreen()),
+          debugShowCheckedModeBanner: false, home: HomeScreen()),
     );
   }
 }
-void locator(){
-  getIt.registerLazySingleton(()=> GetProducts());
-  getIt.registerLazySingleton(()=> ProductRepo());
+
+void locator() {
+  getIt.registerLazySingleton(() => GetProducts());
+  getIt.registerLazySingleton(() => ProductRepo());
 }

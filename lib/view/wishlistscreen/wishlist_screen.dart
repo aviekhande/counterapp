@@ -1,9 +1,10 @@
+import 'package:auto_route/annotations.dart';
 import 'package:counterapp/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/view/wishlistscreen/widget/wishlistcontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+@RoutePage()
 class WishListScreen extends StatefulWidget {
   const WishListScreen({super.key});
   @override

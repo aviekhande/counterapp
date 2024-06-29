@@ -2,9 +2,12 @@
 // import 'package:counterapp/bloc/home_bloc/counter_state.dart';
 // import 'package:counterapp/view/employeeinfo/employee_screen.dart';
 // import 'package:counterapp/view/insertemployeedata/insertemployeedata.dart';
+import 'package:auto_route/annotations.dart';
+import 'package:auto_route/auto_route.dart';
 import 'package:counterapp/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/bloc/product_bloc/product_bloc.dart';
 import 'package:counterapp/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
+import 'package:counterapp/routes/routes_import.gr.dart';
 import 'package:counterapp/view/product/product_screen.dart';
 //import 'package:counterapp/view/static.dart';
 import 'package:counterapp/view/wishlistscreen/wishlist_screen.dart';
@@ -14,6 +17,7 @@ import 'package:loader_overlay/loader_overlay.dart';
 
 // import 'package:flutter_bloc/flutter_bloc.dart';
 // import 'widget/widget.dart';
+@RoutePage()
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
   @override
@@ -43,10 +47,11 @@ class _HomeScreenState extends State<HomeScreen> {
       child: BlocListener<ProductBloc, ProductState>(
           listener: (context, state) {
             if (state is ProductLoaded) {
-              Navigator.push(
-                  context,
-                  MaterialPageRoute(
-                      builder: (context) => const ProductScreen()));
+              // Navigator.push(
+              //     context,
+              //     MaterialPageRoute(
+              //         builder: (context) => const ProductScreen()));
+              AutoRouter.of(context).push(const ProductScreenRoute());
               context.loaderOverlay.hide();
             }
           },
@@ -120,11 +125,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                                   "Please connect to Internet")));
                                     } else{
                                     context.loaderOverlay.show();
-                                    Navigator.push(
-                                        context,
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                const WishListScreen()));}
+                                    // Navigator.push(
+                                    //     context,
+                                    //     MaterialPageRoute(
+                                    //         builder: (context) =>
+                                    //             const WishListScreen()));
+                                    AutoRouter.of(context).push(const WishListScreenRoute());
+                                                }
                                     context.loaderOverlay.hide();
                                   },
                                   child: const Text(

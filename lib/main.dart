@@ -2,6 +2,7 @@ import 'package:counterapp/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/bloc/product_bloc/product_bloc.dart';
 import 'package:counterapp/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/repository/getproduct_api/getproduct_api.dart';
+import 'package:counterapp/routes/routes_import.dart';
 import 'package:counterapp/view/home/home_screen.dart';
 import 'package:counterapp/view/static.dart';
 import 'package:flutter/foundation.dart';
@@ -20,11 +21,12 @@ void main() async {
         : await getApplicationDocumentsDirectory(),
   );
   locator();
-  runApp(const MainApp());
+  runApp(MainApp());
 }
 
 class MainApp extends StatelessWidget {
-  const MainApp({super.key});
+  MainApp({super.key});
+   final _appRouter = AppRouter();
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -39,8 +41,10 @@ class MainApp extends StatelessWidget {
           create: (context) => InternetBloc(),
         ),
       ],
-      child: const MaterialApp(
-          debugShowCheckedModeBanner: false, home: HomeScreen()),
+      child:  MaterialApp.router(
+        
+          debugShowCheckedModeBanner: false,
+          routerConfig: _appRouter.config(),),
     );
   }
 }

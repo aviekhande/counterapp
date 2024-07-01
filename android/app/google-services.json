@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "14163675222",
+    "project_id": "fir-demo-ac8a5",
+    "storage_bucket": "fir-demo-ac8a5.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:14163675222:android:e57490d6796b28fc71d3f7",
+        "android_client_info": {
+          "package_name": "com.example.counterapp"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDVmxDCz0N1PmsbezBi1zx3Pk6fnOfMfJk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -25,8 +25,9 @@ import 'package:dio/dio.dart';
 
 //--> using Dio
 class GetProducts {
-  late List productList = [];
+  // late List productList = [];
   Future<List<Product>> getProductData() async {
+    late List productList = [];
     try {
       var url = 'https://fakestoreapi.com/products';
       var response = await Dio().get(url);

@@ -1,7 +1,6 @@
 import 'dart:developer';
-
 import 'package:auto_route/annotations.dart';
-import 'package:counterapp/bloc/internet_bloc/internet_bloc.dart';
+import 'package:counterapp/core/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/features/product_screen%20/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:counterapp/features/product_screen%20/presentation/pages/productcontainer.dart';
 import 'package:flutter/material.dart';
@@ -82,7 +81,7 @@ class _ProductScreenState extends State<ProductScreen> {
   void _scrollListener() async {
     if (scrollController.position.pixels ==
         scrollController.position.maxScrollExtent) {
-      page = page + 1;
+      // page = page + 1;
       setState(() {
         isLoadingMore = true;
       });

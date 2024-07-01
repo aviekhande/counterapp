@@ -1,5 +1,5 @@
 import 'package:auto_route/annotations.dart';
-import 'package:counterapp/bloc/internet_bloc/internet_bloc.dart';
+import 'package:counterapp/core/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/features/wishlist_screen%20/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/features/wishlist_screen%20/presentation/widgets/wishlistcontainer.dart';
 import 'package:flutter/material.dart';

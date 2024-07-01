@@ -1,4 +1,4 @@
-import 'package:counterapp/bloc/internet_bloc/internet_bloc.dart';
+import 'package:counterapp/core/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/features/product_screen%20/data/models/getproduct_model/getproduct_model.dart';
 import 'package:counterapp/features/wishlist_screen%20/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:flutter/material.dart';

@@ -1,0 +1,1 @@
+const String productAPIBaseURL = "https://fakestoreapi.com";

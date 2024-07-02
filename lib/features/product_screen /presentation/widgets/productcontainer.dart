@@ -119,15 +119,13 @@ class __MycontainerState extends State<Mycontainer> {
                           return GestureDetector(
                               onTap: () {
                                 !(state is WishlistLoaded &&
-                                      state.product
-                                          .contains(widget.productData))
-                                  ? 
-                                context
-                                    .read<WishlistBloc>()
-                                    .add(WishListAdd(widget.productData)): context
+                                        state.product
+                                            .contains(widget.productData))
+                                    ? context
                                         .read<WishlistBloc>()
-                                        .add(WishListRemove(widget.productData.id));
-                             
+                                        .add(WishListAdd(widget.productData))
+                                    : context.read<WishlistBloc>().add(
+                                        WishListRemove(widget.productData.id));
                               },
                               child: !(state is WishlistLoaded &&
                                       state.product

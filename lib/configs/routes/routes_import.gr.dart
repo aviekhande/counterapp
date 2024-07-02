@@ -9,9 +9,12 @@
 
 // ignore_for_file: no_leading_underscores_for_library_prefixes
 import 'package:auto_route/auto_route.dart' as _i4;
-import 'package:counterapp/features/home_screen/presentation/pages/home_screen.dart' as _i1;
-import 'package:counterapp/features/product_screen%20/presentation/widgets/product_screen.dart' as _i2;
-import 'package:counterapp/features/wishlist_screen%20/presentation/pages/wishlist_screen.dart' as _i3;
+import 'package:counterapp/features/home_screen/presentation/pages/home_screen.dart'
+    as _i1;
+import 'package:counterapp/features/product_screen%20/presentation/pages/product_screen.dart'
+    as _i2;
+import 'package:counterapp/features/wishlist_screen%20/presentation/widgets/wishlist_screen.dart'
+    as _i3;
 
 abstract class $AppRouter extends _i4.RootStackRouter {
   $AppRouter({super.navigatorKey});

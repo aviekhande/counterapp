@@ -1,5 +1,9 @@
 import 'package:equatable/equatable.dart';
+import 'package:json_annotation/json_annotation.dart';
+part 'getproduct_model.g.dart';
+// ---> Model Class 
 
+@JsonSerializable()
 // ignore: must_be_immutable
 class Product extends Equatable {
   int? id;
@@ -10,15 +14,15 @@ class Product extends Equatable {
   String? image;
   Rating? rating;
 
-  Product(
-      {this.id,
-      this.title,
-      this.price,
-      this.description,
-      this.category,
-      this.image,
-      this.rating,
-      required ratingCount});
+  Product({
+    this.id,
+    this.title,
+    this.price,
+    this.description,
+    this.category,
+    this.image,
+    this.rating,
+  });
 
   Product.fromJson(Map<String, dynamic> json) {
     id = json['id'];
@@ -43,7 +47,7 @@ class Product extends Equatable {
     }
     return data;
   }
-  
+
   @override
   List<Object?> get props => [
         id,
@@ -57,7 +61,7 @@ class Product extends Equatable {
 }
 
 // ignore: must_be_immutable
-class Rating extends Equatable{
+class Rating extends Equatable {
   double? rate;
   int? count;
 
@@ -74,6 +78,7 @@ class Rating extends Equatable{
     data['count'] = count;
     return data;
   }
+
   @override
   List<Object?> get props => [
         rate,

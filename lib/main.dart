@@ -1,18 +1,15 @@
 import 'package:counterapp/core/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/features/product_screen%20/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:counterapp/features/wishlist_screen%20/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
-import 'package:counterapp/features/product_screen%20/data/repositories/getproduct_api/getproduct_api.dart';
-import 'package:counterapp/core/routes/routes_import.dart';
-import 'package:counterapp/core/static.dart';
+import 'package:counterapp/configs/routes/routes_import.dart';
+import 'package:counterapp/injection.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:get_it/get_it.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
-GetIt getIt = GetIt.instance;
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
@@ -39,7 +36,7 @@ class MainApp extends StatelessWidget {
     return MultiBlocProvider(
       providers: [
         BlocProvider(
-          create: (context) => ProductBloc(),
+          create: (context) => ProductBloc(apiService: getIt()),
         ),
         BlocProvider(
           create: (context) => WishlistBloc(productrepo: getIt()),
@@ -56,7 +53,4 @@ class MainApp extends StatelessWidget {
   }
 }
 
-void locator() {
-  getIt.registerLazySingleton(() => GetProducts());
-  getIt.registerLazySingleton(() => ProductRepo());
-}
+

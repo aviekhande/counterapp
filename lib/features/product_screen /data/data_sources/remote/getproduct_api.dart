@@ -44,7 +44,6 @@ part 'getproduct_api.g.dart';
 //       // for (int i = 0; i < productList.length; i++) {
 //       //   productList1.add(Product.fromJson(productList[i]));
 //       // }
-
 //       return productList1;
 //     } catch (e) {
 //       log("$e");

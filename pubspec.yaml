@@ -10,14 +10,18 @@ dependencies:
   auto_route: ^8.2.0
   auto_route_generator: ^8.0.0
   bloc: ^8.1.4
+  cloud_firestore: ^5.0.2
   connectivity_plus: ^6.0.3
   dio: ^5.4.3+1
   equatable: ^2.0.5
+  firebase_auth: ^5.1.1
   firebase_core: ^3.1.1
   flutter:
     sdk: flutter
   flutter_bloc: ^8.1.6
+  flutter_svg: ^2.0.10+1
   get_it: ^7.7.0
+  google_sign_in: ^6.2.1
   http: ^1.2.1
   hydrated_bloc: ^9.1.5
   json_annotation: ^4.9.0
@@ -29,10 +33,15 @@ dependencies:
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  retrofit_generator: '>=7.0.0 <8.0.0'
-  flutter_lints: ^3.0.0
+  retrofit_generator: ^8.1.1
+  flutter_lints: ^4.0.0
   build_runner: ^2.4.11
   json_serializable: ^6.6.2
 
+
 flutter:
   uses-material-design: true
+  assets:
+    - assets/images/Group 1.svg
+    - assets/images/google.svg
+    - assets/images/Group 2.svg

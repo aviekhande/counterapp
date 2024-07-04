@@ -42,8 +42,9 @@ class _LoginScreenState extends State {
       isLoading = true;
     });
     // signUp user using our authMethod
-    String res = await AuthMethod().loginUser(
-        email: emailController.text, password: passwordController.text);
+    String res = await AuthMethod()
+        .loginUser(
+            email: emailController.text, password: passwordController.text);
 
     if (res == "success") {
       setState(() {
@@ -51,6 +52,8 @@ class _LoginScreenState extends State {
       });
       // navigate to the home screen
       AutoRouter.of(context).push(const HomeScreenRoute());
+      emailController.clear();
+      passwordController.clear();
       showSnackBar(context, "Login successful");
     } else {
       setState(() {
@@ -169,6 +172,8 @@ class _LoginScreenState extends State {
                     var login = await FirebaseServices().signInWithGoogle();
                     if (login) {
                       AutoRouter.of(context).push(const HomeScreenRoute());
+                      emailController.clear();
+                      passwordController.clear();
                     }
                   },
                   child: Container(

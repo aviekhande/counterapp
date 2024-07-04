@@ -7,20 +7,20 @@ import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp(
-    options: const FirebaseOptions(
+      options: const FirebaseOptions(
     apiKey: 'AIzaSyDVmxDCz0N1PmsbezBi1zx3Pk6fnOfMfJk',
     appId: "1:14163675222:android:e57490d6796b28fc71d3f7",
     messagingSenderId: 'messagingSenderId',
     projectId: 'fir-demo-ac8a5',
     storageBucket: 'fir-demo-ac8a5.appspot.com',
-  )
-  );
+  ));
   HydratedBloc.storage = await HydratedStorage.build(
     storageDirectory: kIsWeb
         ? HydratedStorage.webStorageDirectory
@@ -33,7 +33,7 @@ void main() async {
 class MainApp extends StatelessWidget {
   MainApp({super.key});
   final _appRouter = AppRouter();
-  
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -48,10 +48,16 @@ class MainApp extends StatelessWidget {
           create: (context) => InternetBloc(),
         ),
       ],
-      child: MaterialApp.router(
-        debugShowCheckedModeBanner: false,
-        routerConfig: _appRouter.config(),
-      ),
+      child: ScreenUtilInit(
+          designSize: const Size(360, 690),
+          minTextAdapt: true,
+          splitScreenMode: true,
+          builder: (_, child) {
+            return MaterialApp.router(
+              debugShowCheckedModeBanner: false,
+              routerConfig: _appRouter.config(),
+            );
+          }),
     );
   }
 }

@@ -1,4 +1,6 @@
 import 'package:auto_route/annotations.dart';
+import 'package:counterapp/configs/components/appbar_widget.dart';
+import 'package:counterapp/configs/components/drawer_widget.dart';
 import 'package:counterapp/core/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/features/wishlist_screen%20/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/features/wishlist_screen%20/presentation/widgets/wishlistcontainer.dart';
@@ -32,12 +34,15 @@ class _ProductScreenState extends State<WishListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: AppBar(
-            backgroundColor: Colors.blue,
-            title: const Text(
-              "WishListProduct",
-              style: TextStyle(color: Colors.white),
-            )),
+        appBar: const PreferredSize(
+            preferredSize: Size(10, 50),
+            child: CommonAppBar(screenName: "Product")),
+        // AppBar(
+        //     backgroundColor: Colors.blue,
+        //     title: const Text(
+        //       "WishListProduct",
+        //       style: TextStyle(color: Colors.white),
+        //     )),
         body: BlocBuilder<InternetBloc, InternetStatus>(
           builder: (context, state) {
             return state.status == ConnectivityStatus.connected
@@ -61,6 +66,8 @@ class _ProductScreenState extends State<WishListScreen> {
                     child: Text("No Internet Connection"),
                   );
           },
-        ));
+        ),
+        drawer: const CommonDrawer(),
+        );
   }
 }

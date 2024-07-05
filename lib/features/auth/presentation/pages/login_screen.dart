@@ -6,6 +6,7 @@ import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:google_sign_in/google_sign_in.dart";
 
+import "../../../notificaton_service.dart";
 import "../../domain/usecases/authentication.dart";
 
 @RoutePage()
@@ -50,6 +51,7 @@ class _LoginScreenState extends State {
       setState(() {
         isLoading = false;
       });
+      LocalNotificationService().uploadFcmToken();
       // navigate to the home screen
       AutoRouter.of(context).push(const HomeScreenRoute());
       emailController.clear();

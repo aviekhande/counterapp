@@ -1,6 +1,9 @@
+import 'dart:developer';
+
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:counterapp/features/auth/domain/usecases/sessioncontroller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+
 class AuthMethod {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
@@ -19,17 +22,17 @@ class AuthMethod {
           password: password,
         )
             .then((user) {
+          SessionController().userId = user.user!.uid.toString();
           return user;
         });
+
         await _fireStore.collection("users").doc(cred.user!.uid).set({
           'name': name,
           'uid': cred.user!.uid,
           'email': email,
+          "image": "",
+          "mobile": ""
         });
-        FirebaseFirestore.instance
-            .collection("profile")
-            .doc(SessionController().userId)
-            .set({"name": name, "email": email, "mobile": ""});
 
         res = "success";
       }
@@ -54,6 +57,7 @@ class AuthMethod {
           password: password,
         )
             .then((value) {
+          log(value.user!.uid);
           SessionController().userId = value.user!.uid.toString();
         });
         res = "success";
@@ -65,6 +69,7 @@ class AuthMethod {
     }
     return res;
   }
+
   // for signOut
   signOut() async {
     await _auth.signOut();

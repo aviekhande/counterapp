@@ -37,7 +37,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   // DocumentSnapshot? docSnap;
   Future<DocumentSnapshot?> getUserData() async {
     await FirebaseFirestore.instance
-        .collection("profile")
+        .collection("users")
         .doc(SessionController().userId)
         .get()
         .then((value) {
@@ -237,18 +237,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
           onTap: () {
             if (isvalidedata()) {
               FirebaseFirestore.instance
-                  .collection("profile")
-                  .doc(SessionController().userId)
-                  .set({
-                "name": nameController.text,
-                "email": emailController.text,
-                "mobile": numberController.text,
-                "image": imageUrl
-              });
-              FirebaseFirestore.instance
                   .collection("users")
                   .doc(SessionController().userId)
                   .set({
+                "image": imageUrl,
+                "mobile": numberController.text,
                 'name': nameController.text,
                 'uid': SessionController().userId,
                 'email': emailController.text,

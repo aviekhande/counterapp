@@ -1,4 +1,5 @@
 import 'package:counterapp/core/internet_bloc/internet_bloc.dart';
+import 'package:counterapp/features/notificaton_service.dart';
 import 'package:counterapp/features/product_screen%20/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:counterapp/features/wishlist_screen%20/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/configs/routes/routes_import.dart';
@@ -26,6 +27,7 @@ void main() async {
         ? HydratedStorage.webStorageDirectory
         : await getApplicationDocumentsDirectory(),
   );
+  LocalNotificationService().requestPermission();
   locator();
   runApp(MainApp());
 }

@@ -25,20 +25,14 @@ class _CommonDrawerState extends State<CommonDrawer> {
   String imageUrl = "";
   // DocumentSnapshot? docSnap;
   Future<DocumentSnapshot?> getUserData() async {
-    // await FirebaseFirestore.instance
-    //     .collection("users")
-    //     .doc(SessionController().userId)
-    //     .get()
-    //     .then((value) {
-    //   docSnap = value;
-    // });
     await FirebaseFirestore.instance
-        .collection("profile")
+        .collection("users")
         .doc(SessionController().userId)
         .get()
         .then((value) {
       docSnap = value;
     });
+
     imageUrl = docSnap?['image'];
     setState(() {});
     //  User user =U?ser.fromJson(!docSnap);

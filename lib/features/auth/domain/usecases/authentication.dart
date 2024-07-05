@@ -1,14 +1,9 @@
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:counterapp/features/auth/domain/usecases/sessioncontroller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
-
-import 'package:google_sign_in/google_sign_in.dart';
-
 class AuthMethod {
   final FirebaseFirestore _fireStore = FirebaseFirestore.instance;
   final FirebaseAuth _auth = FirebaseAuth.instance;
-  final GoogleSignIn _googleSignIn = GoogleSignIn();
-  // SignUp User
 
   Future<String> signUpUser({
     required String email,
@@ -18,7 +13,6 @@ class AuthMethod {
     String res = "Some error Occurred";
     try {
       if (email.isNotEmpty || password.isNotEmpty || name.isNotEmpty) {
-        // register user in auth with email and password
         UserCredential cred = await _auth
             .createUserWithEmailAndPassword(
           email: email,
@@ -27,8 +21,6 @@ class AuthMethod {
             .then((user) {
           return user;
         });
-
-        // add user to your  fireStore database
         await _fireStore.collection("users").doc(cred.user!.uid).set({
           'name': name,
           'uid': cred.user!.uid,
@@ -73,7 +65,6 @@ class AuthMethod {
     }
     return res;
   }
-
   // for signOut
   signOut() async {
     await _auth.signOut();

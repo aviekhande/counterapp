@@ -1,5 +1,3 @@
-import 'dart:developer';
-
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -21,10 +19,9 @@ class FirebaseServices {
         await auth.signInWithCredential(authCredential);
         // if(authCredentia){}
       }
-   
+
       return true;
-    } on FirebaseAuthException catch (e) {
-      print(e.toString());
+    } on FirebaseAuthException {
       return false;
     }
   }

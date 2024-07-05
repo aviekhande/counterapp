@@ -1,7 +1,11 @@
+import 'dart:developer';
+import 'dart:io';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:counterapp/configs/components/appbar_widget.dart';
 import 'package:counterapp/features/auth/domain/usecases/sessioncontroller.dart';
+import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -10,7 +14,7 @@ import 'package:image_picker/image_picker.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
-  const ProfileScreen({Key? key}) : super(key: key);
+  const ProfileScreen({super.key});
 
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
@@ -29,6 +33,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     getUserData();
   }
 
+  String imageUrl = "";
   // DocumentSnapshot? docSnap;
   Future<DocumentSnapshot?> getUserData() async {
     await FirebaseFirestore.instance
@@ -41,6 +46,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
     nameController.text = docSnap?['name'];
     numberController.text = docSnap?['mobile'];
     emailController.text = docSnap?['email'];
+    imageUrl = docSnap?['image'];
+    setState(() {});
     //  User user =U?ser.fromJson(!docSnap);
     return docSnap;
   }
@@ -90,16 +97,33 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return Column(
       children: [
         SizedBox(
+          height: 50.h,
           width: double.infinity,
-          child: SvgPicture.asset(
-            "assets/images/Isolation_Mode.svg",
-          ),
+          child: imageUrl.isEmpty
+              ? SvgPicture.asset(
+                  "assets/images/Isolation_Mode.svg",
+                )
+              : Image.network(imageUrl),
         ),
         const SizedBox(height: 10),
         GestureDetector(
           onTap: () async {
             final ImagePicker picker = ImagePicker();
-            final LostDataResponse response = await picker.retrieveLostData();
+            String uniqueFileName =
+                DateTime.now().microsecondsSinceEpoch.toString();
+            XFile? file = await picker.pickImage(source: ImageSource.camera);
+            Reference referenceToUpload = FirebaseStorage.instance
+                .ref()
+                .child('images')
+                .child(uniqueFileName);
+            if (file == null) return;
+            try {
+              await referenceToUpload.putFile(File(file.path));
+              imageUrl = await referenceToUpload.getDownloadURL();
+            } catch (e) {
+              log("IN Catch");
+              rethrow;
+            }
           },
           child: Container(
             width: 122.w,
@@ -212,15 +236,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
         GestureDetector(
           onTap: () {
             if (isvalidedata()) {
-              CollectionReference collRef =
-                  FirebaseFirestore.instance.collection("profile");
               FirebaseFirestore.instance
                   .collection("profile")
                   .doc(SessionController().userId)
                   .set({
                 "name": nameController.text,
                 "email": emailController.text,
-                "mobile": numberController.text
+                "mobile": numberController.text,
+                "image": imageUrl
               });
               FirebaseFirestore.instance
                   .collection("users")
@@ -230,18 +253,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'uid': SessionController().userId,
                 'email': emailController.text,
               });
-              // collRef
-              //     .add({
-              //       "name": nameController.text,
-              //       "email": emailController.text,
-              //       "mobile": numberController.text
-              //     })
-              //     .whenComplete(() => ScaffoldMessenger.of(context)
-              //         .showSnackBar(const SnackBar(content: Text("Data Save"))))
-              //     .catchError((error, stackTrace) {
-              //       ScaffoldMessenger.of(context).showSnackBar(
-              //           const SnackBar(content: Text("Data Save")));
-              //     });
+              setState(() {});
               ScaffoldMessenger.of(context)
                   .showSnackBar(const SnackBar(content: Text("Data Save")));
             } else {

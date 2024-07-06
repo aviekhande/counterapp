@@ -1,6 +1,5 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
-import 'package:http/http.dart';
 part 'profiledata_event.dart';
 part 'profiledata_state.dart';
 

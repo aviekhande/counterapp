@@ -1,10 +1,11 @@
 import 'dart:developer';
 
-import 'package:counterapp/core/internet_bloc/internet_bloc.dart';
-import 'package:counterapp/features/notificaton_service.dart';
-import 'package:counterapp/features/product_screen%20/presentation/bloc/product_bloc/product_bloc.dart';
-import 'package:counterapp/features/wishlist_screen%20/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
-import 'package:counterapp/configs/routes/routes_import.dart';
+import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
+import 'package:counterapp/core/services/notification/notificaton_service.dart';
+import 'package:counterapp/features/product_details/presentation/bloc/product_bloc/product_bloc.dart';
+import 'package:counterapp/features/profile_details/presentation/bloc/bloc/profiledata_bloc.dart';
+import 'package:counterapp/features/wishlist_details/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
+import 'package:counterapp/core/routes/routes_import.dart';
 import 'package:counterapp/injection.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
@@ -72,6 +73,9 @@ void notificationHandler(){
         ),
         BlocProvider(
           create: (context) => InternetBloc(),
+        ),
+          BlocProvider(
+          create: (context) => ProfiledataBloc(),
         ),
       ],
       child: ScreenUtilInit(

@@ -1,5 +1,5 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:counterapp/configs/routes/routes_import.gr.dart';
+import 'package:counterapp/core/routes/routes_import.gr.dart';
 import 'package:counterapp/features/auth/domain/usecases/authentication.dart';
 import 'package:counterapp/features/auth/presentation/widgets/snackbar.dart';
 import "package:flutter/material.dart";
@@ -22,9 +22,7 @@ class SignUpState extends State {
 
   void signUpUser() async {
     // set is loading to true.
-    setState(() {
-      isLoading = true;
-    });
+   
     // signup user using our authmethod
     String res = await AuthMethod().signUpUser(
         email: emailController.text,
@@ -32,16 +30,12 @@ class SignUpState extends State {
         name: nameController.text);
     // if string return is success, user has been creaded and navigate to next screen other witse show error.
     if (res == "success") {
-      setState(() {
-        isLoading = false;
-      });
+     
       //navigate to the next screen
       AutoRouter.of(context).push(const HomeScreenRoute());
       showSnackBar(context, res);
     } else {
-      setState(() {
-        isLoading = false;
-      });
+    
       // show error
       showSnackBar(context, res);
     }

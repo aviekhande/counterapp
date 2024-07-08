@@ -1,12 +1,12 @@
 import "package:auto_route/auto_route.dart";
-import "package:counterapp/configs/routes/routes_import.gr.dart";
+import "package:counterapp/core/routes/routes_import.gr.dart";
 import "package:counterapp/features/auth/domain/usecases/google_auth.dart";
 import "package:counterapp/features/auth/presentation/widgets/snackbar.dart";
 import "package:flutter/material.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:google_sign_in/google_sign_in.dart";
 
-import "../../../notificaton_service.dart";
+import "../../../../core/services/notification/notificaton_service.dart";
 import "../../domain/usecases/authentication.dart";
 
 @RoutePage()
@@ -39,18 +39,14 @@ class _LoginScreenState extends State {
   }
 
   void loginUser(context) async {
-    setState(() {
-      isLoading = true;
-    });
+   
     // signUp user using our authMethod
     String res = await AuthMethod()
         .loginUser(
             email: emailController.text, password: passwordController.text);
 
     if (res == "success") {
-      setState(() {
-        isLoading = false;
-      });
+     
       LocalNotificationService().uploadFcmToken();
       // navigate to the home screen
       AutoRouter.of(context).push(const HomeScreenRoute());
@@ -58,9 +54,7 @@ class _LoginScreenState extends State {
       passwordController.clear();
       showSnackBar(context, "Login successful");
     } else {
-      setState(() {
-        isLoading = false;
-      });
+      
       // show error
       showSnackBar(context, res);
     }
@@ -172,7 +166,7 @@ class _LoginScreenState extends State {
                 GestureDetector(
                   onTap: () async {
                     var login = await FirebaseServices().signInWithGoogle();
-                    if (login) {
+                    if (!login) {
                       AutoRouter.of(context).push(const HomeScreenRoute());
                       emailController.clear();
                       passwordController.clear();

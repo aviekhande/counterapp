@@ -1,4 +1,4 @@
-import 'package:counterapp/features/product_screen%20/data/models/getproduct_model/getproduct_model.dart';
+import 'package:counterapp/features/product_details/data/models/getproduct_model/getproduct_model.dart';
 
 class ProductRepo {
   List<Product> favlist = [];

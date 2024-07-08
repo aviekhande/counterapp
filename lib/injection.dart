@@ -1,5 +1,5 @@
 import 'package:counterapp/core/static.dart';
-import 'package:counterapp/features/product_screen%20/data/data_sources/remote/getproduct_api.dart';
+import 'package:counterapp/features/product_details/data/data_sources/remote/getproduct_api.dart';
 import 'package:dio/dio.dart';
 import 'package:get_it/get_it.dart';
 

@@ -1,10 +1,10 @@
 import 'package:auto_route/auto_route.dart';
-import 'package:counterapp/core/internet_bloc/internet_bloc.dart';
-import 'package:counterapp/configs/components/appbar_widget.dart';
-import 'package:counterapp/configs/components/drawer_widget.dart';
-import 'package:counterapp/features/product_screen%20/presentation/bloc/product_bloc/product_bloc.dart';
-import 'package:counterapp/features/wishlist_screen%20/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
-import 'package:counterapp/configs/routes/routes_import.gr.dart';
+import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
+import 'package:counterapp/core/configs/components/appbar_widget.dart';
+import 'package:counterapp/core/configs/components/drawer_widget.dart';
+import 'package:counterapp/features/product_details/presentation/bloc/product_bloc/product_bloc.dart';
+import 'package:counterapp/features/wishlist_details/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
+import 'package:counterapp/core/routes/routes_import.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';

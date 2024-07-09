@@ -1,3 +1,6 @@
+import 'dart:developer';
+
+import 'package:counterapp/features/auth/domain/usecases/sessioncontroller.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:google_sign_in/google_sign_in.dart';
 
@@ -9,6 +12,7 @@ class FirebaseServices {
     try {
       final GoogleSignInAccount? googleSignInAccount =
           await googleSignIn.signIn();
+        
       if (googleSignInAccount != null) {
         final GoogleSignInAuthentication googleSignInAuthentication =
             await googleSignInAccount.authentication;
@@ -17,9 +21,10 @@ class FirebaseServices {
           idToken: googleSignInAuthentication.idToken,
         );
         await auth.signInWithCredential(authCredential);
-        // if(authCredentia){}
+        SessionController().userId = auth.currentUser?.uid;
+        log("${auth.currentUser}");
       }
-
+    
       return true;
     } on FirebaseAuthException {
       return false;

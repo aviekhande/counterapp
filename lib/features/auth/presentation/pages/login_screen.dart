@@ -166,7 +166,7 @@ class _LoginScreenState extends State {
                 GestureDetector(
                   onTap: () async {
                     var login = await FirebaseServices().signInWithGoogle();
-                    if (!login) {
+                    if (login) {
                       AutoRouter.of(context).push(const HomeScreenRoute());
                       emailController.clear();
                       passwordController.clear();

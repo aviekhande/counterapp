@@ -7,6 +7,7 @@ class AppRouter extends $AppRouter {
   final user = auth.currentUser;
   if(user !=null){
     SessionController().userId = user.uid.toString();
+  
   }
   return user;
   

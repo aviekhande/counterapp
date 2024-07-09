@@ -16,12 +16,11 @@ class CommonDrawer extends StatefulWidget {
 DocumentSnapshot? docSnap;
 
 class _CommonDrawerState extends State<CommonDrawer> {
-  @override
+ @override
   void initState() {
     super.initState();
     getUserData();
   }
-
   String imageUrl = "";
   // DocumentSnapshot? docSnap;
   Future<DocumentSnapshot?> getUserData() async {
@@ -35,50 +34,57 @@ class _CommonDrawerState extends State<CommonDrawer> {
 
     imageUrl = docSnap?['image'];
     setState(() {});
-    //  User user =U?ser.fromJson(!docSnap);
     return docSnap;
   }
 
   @override
   Widget build(BuildContext context) {
-    return Drawer(
-      width: 295.w,
-      backgroundColor: const Color.fromARGB(255, 227, 234, 245),
-      child: Column(
-        children: [
-          SizedBox(
-            height: 50.h,
-          ),
-          GestureDetector(
-            onTap: () {
-              AutoRouter.of(context).push(const ProfileScreenRoute());
-            },
-            child: CircleAvatar(
-              radius: 40.w,
-              backgroundColor: const Color.fromARGB(255, 227, 234, 245),
-              child: imageUrl.isEmpty
-                  ? SvgPicture.asset(
-                      "assets/images/Isolation_Mode.svg",
-                    )
-                  : Image.network(imageUrl),
-            ),
-          ),
-          SizedBox(
-            height: 20.h,
-          ),
-          Text(
-            "${docSnap?['name']}",
-            style: TextStyle(fontSize: 12.sp),
-          ),
-          SizedBox(
-            height: 10.h,
-          ),
-          Text(
-            "${docSnap?['email']}",
-            style: TextStyle(fontSize: 12.sp),
-          ),
-        ],
-      ),
+    return FutureBuilder(
+      future: getUserData(),
+      builder: (context,snapshot) {
+        return  
+        Drawer(
+          width: 295.w,
+          backgroundColor: const Color.fromARGB(255, 227, 234, 245),
+          child: snapshot.hasData?
+          Column(
+            children: [
+              SizedBox(
+                height: 50.h,
+              ),
+              GestureDetector(
+                onTap: () {
+                  AutoRouter.of(context).popAndPush(const ProfileScreenRoute());
+        
+                },
+                child: CircleAvatar(
+                  radius: 40.w,
+                  backgroundColor: const Color.fromARGB(255, 227, 234, 245),
+                  child: imageUrl.isEmpty
+                      ? SvgPicture.asset(
+                          "assets/images/Isolation_Mode.svg",
+                        )
+                      : Image.network(imageUrl),
+                ),
+              ),
+              SizedBox(
+                height: 20.h,
+              ),
+              Text(
+                "${docSnap?['name']}",
+                style: TextStyle(fontSize: 12.sp),
+              ),
+              SizedBox(
+                height: 10.h,
+              ),
+              Text(
+                "${docSnap?['email']}",
+                style: TextStyle(fontSize: 12.sp),
+              ),
+            ],
+          ):const Center(child: CircularProgressIndicator()),
+        );
+      }
     );
   }
 }

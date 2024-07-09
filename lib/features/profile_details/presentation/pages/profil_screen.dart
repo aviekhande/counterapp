@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import 'dart:developer';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
@@ -97,14 +99,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileHeader() {
     return Column(
       children: [
-        SizedBox(
-          height: 50.h,
-          width: double.infinity,
-          child: imageUrl.isEmpty
-              ? SvgPicture.asset(
-                  "assets/images/Isolation_Mode.svg",
-                )
-              : Image.network(imageUrl),
+        BlocBuilder<ProfiledataBloc,ProfiledataState>(
+          builder: (context,state) {
+            if(state is ProfileDataLoading){
+                imageUrl = state.docSnap?['image'];
+            }
+            return SizedBox(
+              height: 50.h,
+              width: double.infinity,
+              child: imageUrl.isEmpty
+                  ? SvgPicture.asset(
+                      "assets/images/Isolation_Mode.svg",
+                    )
+                  : Image.network(imageUrl),
+            );
+          }
         ),
         const SizedBox(height: 10),
         GestureDetector(
@@ -183,14 +192,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ) {
     return BlocConsumer<ProfiledataBloc, ProfiledataState>(
       listener: (context, state) {
+        //  if (state is ProfileDataLoading) {
+        //   print("In ProfileLoadinc");
+        //   nameController.text = state.docSnap?['name'];
+        //   numberController.text = state.docSnap?['mobile'];
+        //   emailController.text = state.docSnap?['email'];
+        //   imageUrl = state.docSnap?['image'];
+        // }
+      },
+      builder: (context, state) {
         if (state is ProfileDataLoading) {
           nameController.text = state.docSnap?['name'];
           numberController.text = state.docSnap?['mobile'];
           emailController.text = state.docSnap?['email'];
           imageUrl = state.docSnap?['image'];
         }
-      },
-      builder: (context, state) {
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -247,9 +263,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: Color.fromRGBO(29, 18, 18, 0.15),
         ),
         GestureDetector(
-          onTap: () {
+          onTap: () async{
             if (isvalidedata()) {
-              FirebaseFirestore.instance
+              await FirebaseFirestore.instance
                   .collection("users")
                   .doc(SessionController().userId)
                   .set({
@@ -259,7 +275,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'uid': SessionController().userId,
                 'email': emailController.text,
               });
-              setState(() {});
+              log("$imageUrl>>>>>>>>>>>>>>>>>>");
+              context.read<ProfiledataBloc>().add(ProfileInfoFetch());
               ScaffoldMessenger.of(context)
                   .showSnackBar(const SnackBar(content: Text("Data Save")));
             } else {
@@ -292,7 +309,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
-        return Container(
+        return SizedBox(
           height: 100,
           child: Center(
             child: Row(
@@ -343,7 +360,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
     try {
       await referenceToUpload.putFile(File(file.path));
       imageUrl = await referenceToUpload.getDownloadURL();
-      setState(() {});
+      Future.delayed(const Duration(microseconds: 1));
+      log(imageUrl);
+
     } catch (e) {
       log("IN Catch");
       rethrow;

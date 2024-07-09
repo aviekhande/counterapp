@@ -1,4 +1,3 @@
-import 'dart:developer';
 
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/core/services/notification/notificaton_service.dart';
@@ -57,7 +56,6 @@ class _MainAppState extends State<MainApp> {
 void notificationHandler(){
  
   FirebaseMessaging.onMessage.listen((event)async{
-    print(event.notification!.title);
     LocalNotificationService().showNotification(event);
   });
 }

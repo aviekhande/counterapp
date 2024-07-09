@@ -14,7 +14,7 @@ class ProfiledataBloc extends Bloc<ProfiledataEvent, ProfiledataState> {
   void _onProfileUpdate(
       ProfileInfoFetch event, Emitter<ProfiledataState> emit) async {
     DocumentSnapshot? doc = await getUserData();
-    log("${doc?['name']}");
+    log("${doc?['mobile']}");
     emit(ProfileDataLoading(docSnap: doc));
   }
 }

@@ -21,7 +21,6 @@ class LocalNotificationService {
     log("message");
     try {
       await FirebaseMessaging.instance.getToken().then((token) async {
-        print("getToken :$token>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
         await firebaseFirestore
             .collection('users1')
             .doc(_currentUser!.uid)
@@ -30,8 +29,7 @@ class LocalNotificationService {
           "email": _currentUser.email,
         });
       });
-      await FirebaseMessaging.instance.onTokenRefresh.listen((token) async {
-        print("onTokenRefresh :$token");
+      FirebaseMessaging.instance.onTokenRefresh.listen((token) async {
         await firebaseFirestore
             .collection('users1')
             .doc(_currentUser!.uid)

@@ -1,15 +1,8 @@
 part of 'profiledata_bloc.dart';
 
-sealed class ProfiledataState extends Equatable {
-  const ProfiledataState();
-
-  @override
-  List<Object> get props => [];
-}
-
+class ProfiledataState {}
 final class ProfiledataInitial extends ProfiledataState {}
-
 final class ProfileDataLoading extends ProfiledataState {
-  DocumentSnapshot? docSnap;
+  final DocumentSnapshot? docSnap;
   ProfileDataLoading({required this.docSnap});
 }

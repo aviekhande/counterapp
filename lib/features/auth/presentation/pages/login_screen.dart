@@ -1,3 +1,5 @@
+// ignore_for_file: use_build_context_synchronously
+
 import "package:auto_route/auto_route.dart";
 import "package:counterapp/core/routes/routes_import.gr.dart";
 import "package:counterapp/features/auth/domain/usecases/google_auth.dart";

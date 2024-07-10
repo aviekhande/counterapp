@@ -14,6 +14,7 @@ import 'package:flutter_svg/svg.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:loader_overlay/loader_overlay.dart';
 
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
@@ -37,6 +38,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   String imageUrl = "";
+  String imageUrl1 = "";
   // DocumentSnapshot? docSnap;
   // Future<DocumentSnapshot?> getUserData() async {
   //   await FirebaseFirestore.instance
@@ -57,30 +59,32 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
-      appBar: PreferredSize(
-        preferredSize: Size.fromHeight(40.h),
-        child: const CommonAppBar(
-          screenName: "Profile",
-          isProfile: true,
+    return LoaderOverlay(
+      child: Scaffold(
+        backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+        appBar: PreferredSize(
+          preferredSize: Size.fromHeight(40.h),
+          child: const CommonAppBar(
+            screenName: "Profile",
+            isProfile: true,
+          ),
         ),
-      ),
-      body: SingleChildScrollView(
-        child: Padding(
-          padding: EdgeInsets.symmetric(horizontal: 24.w),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              SizedBox(
-                height: 24.h,
-              ),
-              _buildProfileHeader(),
-              SizedBox(height: 20.h),
-              _buildPrimaryInfo(),
-              SizedBox(height: 20.h),
-              _buildUpdateButton(),
-            ],
+        body: SingleChildScrollView(
+          child: Padding(
+            padding: EdgeInsets.symmetric(horizontal: 24.w),
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                SizedBox(
+                  height: 24.h,
+                ),
+                _buildProfileHeader(),
+                SizedBox(height: 20.h),
+                _buildPrimaryInfo(),
+                SizedBox(height: 20.h),
+                _buildUpdateButton(),
+              ],
+            ),
           ),
         ),
       ),
@@ -99,11 +103,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileHeader() {
     return Column(
       children: [
-        BlocBuilder<ProfiledataBloc,ProfiledataState>(
-          builder: (context,state) {
-            if(state is ProfileDataLoading){
-                imageUrl = state.docSnap?['image'];
-            }
+        BlocBuilder<ProfiledataBloc, ProfiledataState>(
+            builder: (context, state) {
+          if (state is ProfileDataLoading) {
+            imageUrl = state.docSnap?['image'];
+          }
+          if (state is ProfileImageLoading) {
+            imageUrl1 = state.image;
+          }
+          return Builder(builder: (context) {
             return SizedBox(
               height: 50.h,
               width: double.infinity,
@@ -111,10 +119,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   ? SvgPicture.asset(
                       "assets/images/Isolation_Mode.svg",
                     )
-                  : Image.network(imageUrl),
+                  : imageUrl1.isEmpty
+                      ? Image.network(imageUrl)
+                      : Image.file(File(imageUrl1)),
             );
-          }
-        ),
+          });
+        }),
         const SizedBox(height: 10),
         GestureDetector(
           onTap: () async {
@@ -263,7 +273,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
           color: Color.fromRGBO(29, 18, 18, 0.15),
         ),
         GestureDetector(
-          onTap: () async{
+          onTap: () async {
             if (isvalidedata()) {
               await FirebaseFirestore.instance
                   .collection("users")
@@ -324,7 +334,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Icons.camera_alt,
                     color: Colors.black,
                   ),
-                  onPressed: () => upLoadPhoto("cam"),
+                  onPressed: () async => await upLoadPhoto("cam"),
                 ),
                 SizedBox(
                   width: 30.w,
@@ -337,7 +347,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     Icons.photo,
                     color: Colors.black,
                   ),
-                  onPressed: () => upLoadPhoto("gallery"),
+                  onPressed: () async => await upLoadPhoto("gallery"),
                 ),
               ],
             ),
@@ -348,7 +358,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
     return check;
   }
 
-  void upLoadPhoto(option) async {
+  Future<void> upLoadPhoto(option) async {
     final ImagePicker picker = ImagePicker();
     String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
     XFile? file = await picker.pickImage(
@@ -358,11 +368,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
         FirebaseStorage.instance.ref().child('images').child(uniqueFileName);
     if (file == null) return;
     try {
+      context.read<ProfiledataBloc>().add(ProfileUpdate(image: file.path));
+      context.loaderOverlay.show();
       await referenceToUpload.putFile(File(file.path));
       imageUrl = await referenceToUpload.getDownloadURL();
-      Future.delayed(const Duration(microseconds: 1));
+      context.loaderOverlay.hide();
       log(imageUrl);
-
     } catch (e) {
       log("IN Catch");
       rethrow;

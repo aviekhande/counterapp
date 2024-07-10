@@ -12,6 +12,18 @@ class Mycontainer extends StatefulWidget {
   State<Mycontainer> createState() => __MycontainerState();
 }
 
+List<Map> _points = <Map>[
+  {"Title": "product"}
+];
+List<String> points1 = [];
+List<Map> toList1() {
+  _points.forEach((item) {
+    points1.add(item.toString());
+  });
+
+  return _points.toList();
+}
+
 class __MycontainerState extends State<Mycontainer> {
   late InternetBloc internetBloc;
 
@@ -117,7 +129,7 @@ class __MycontainerState extends State<Mycontainer> {
                       BlocBuilder<WishlistBloc, WishlistState>(
                         builder: (context, state) {
                           return GestureDetector(
-                              onTap: () {
+                              onTap: () async {
                                 !(state is WishlistLoaded &&
                                         state.product
                                             .contains(widget.productData))

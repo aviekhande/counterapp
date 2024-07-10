@@ -55,14 +55,14 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     height: 20.h,
                   ),
                   Text(
-                    "${docSnap?['name']}",
+                    "${state.docSnap?['name']}",
                     style: TextStyle(fontSize: 12.sp),
                   ),
                   SizedBox(
                     height: 10.h,
                   ),
                   Text(
-                    "${docSnap?['email']}",
+                    "${state.docSnap?['email']}",
                     style: TextStyle(fontSize: 12.sp),
                   ),
                 ],

@@ -1,13 +1,17 @@
 import 'package:auto_route/auto_route.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/core/configs/components/appbar_widget.dart';
 import 'package:counterapp/core/configs/components/drawer_widget.dart';
 import 'package:counterapp/features/product_details/presentation/bloc/product_bloc/product_bloc.dart';
+import 'package:counterapp/features/profile_details/data/getuserdata.dart';
 import 'package:counterapp/features/wishlist_details/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/core/routes/routes_import.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
+
+import '../../../product_details/data/models/getproduct_model/getproduct_model.dart';
 
 @RoutePage()
 class HomeScreen extends StatefulWidget {
@@ -69,7 +73,10 @@ class _HomeScreenState extends State<HomeScreen> {
                             backgroundColor: WidgetStatePropertyAll(
                                 Color.fromARGB(255, 114, 182, 214)),
                             minimumSize: WidgetStatePropertyAll(Size(300, 50))),
-                        onPressed: () {
+                        onPressed: () async {
+                          List<Product> wish = await getWishlistData();
+                          context.read<WishlistBloc>().add(WishListfetch());
+                          // WishlistLoaded(wish);
                           if (state.status == ConnectivityStatus.disconnected) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(

@@ -20,3 +20,6 @@ class WishlistClicked extends WishlistEvent{
   final int id;
   const WishlistClicked(this.id);
 }
+class WishListfetch extends WishlistEvent{
+  
+}

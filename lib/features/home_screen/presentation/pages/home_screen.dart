@@ -23,6 +23,7 @@ class _HomeScreenState extends State<HomeScreen> {
     internetBloc = context.read<InternetBloc>();
     internetBloc.checkInternet();
     internetBloc.trackConnectivityChange();
+    context.read<WishlistBloc>().add(WishListfetch());
     super.initState();
   }
 
@@ -70,8 +71,6 @@ class _HomeScreenState extends State<HomeScreen> {
                                 Color.fromARGB(255, 114, 182, 214)),
                             minimumSize: WidgetStatePropertyAll(Size(300, 50))),
                         onPressed: () async {
-                          context.read<WishlistBloc>().add(WishListfetch());
-                          // WishlistLoaded(wish);
                           if (state.status == ConnectivityStatus.disconnected) {
                             ScaffoldMessenger.of(context).showSnackBar(
                                 const SnackBar(
@@ -134,6 +133,35 @@ class _HomeScreenState extends State<HomeScreen> {
                         },
                       ),
                     ),
+                    const SizedBox(
+                      height: 20,
+                    ),
+                    BlocBuilder<InternetBloc, InternetStatus>(
+                        builder: (context, state) {
+                      return ElevatedButton(
+                        style: const ButtonStyle(
+                            backgroundColor: WidgetStatePropertyAll(
+                                Color.fromARGB(255, 114, 182, 214)),
+                            minimumSize: WidgetStatePropertyAll(Size(300, 50))),
+                        onPressed: () {
+                          if (state.status == ConnectivityStatus.disconnected) {
+                            ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                    content:
+                                        Text("Please connect to Internet")));
+                          } else {
+                            context.loaderOverlay.show();
+                            AutoRouter.of(context)
+                                .push(const PostScreenRoute());
+                          }
+                          context.loaderOverlay.hide();
+                        },
+                        child: const Text(
+                          "Load Posts",
+                          style: TextStyle(color: Colors.white, fontSize: 20),
+                        ),
+                      );
+                    })
                   ],
                 ),
                 drawer: const CommonDrawer(),

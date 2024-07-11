@@ -103,8 +103,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildProfileHeader() {
     return Column(
       children: [
-        BlocBuilder<ProfiledataBloc, ProfiledataState>(
-            builder: (context, state) {
+        BlocConsumer<ProfiledataBloc, ProfiledataState>(
+            listener: (context, state) {
+          if (state is ProfileImageLoading) {
+            imageUrl1 = state.image;
+          }
+        }, builder: (context, state) {
           if (state is ProfileDataLoading) {
             imageUrl = state.docSnap?['image'];
           }
@@ -113,16 +117,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
           }
           return Builder(builder: (context) {
             return SizedBox(
-              height: 50.h,
-              width: double.infinity,
-              child: imageUrl.isEmpty
-                  ? SvgPicture.asset(
-                      "assets/images/Isolation_Mode.svg",
-                    )
-                  : imageUrl1.isEmpty
-                      ? Image.network(imageUrl)
-                      : Image.file(File(imageUrl1)),
-            );
+                height: 50.h,
+                width: double.infinity,
+                child: imageUrl.isEmpty
+                    ? SvgPicture.asset(
+                        "assets/images/Isolation_Mode.svg",
+                      )
+                    : state is ProfileImageLoading
+                        ? Image.file(File(state.image))
+                        : Image.network(imageUrl));
           });
         }),
         const SizedBox(height: 10),
@@ -372,6 +375,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
       context.loaderOverlay.show();
       await referenceToUpload.putFile(File(file.path));
       imageUrl = await referenceToUpload.getDownloadURL();
+      context.read<ProfiledataBloc>().add(ProfileUpdate(image: file.path));
       context.loaderOverlay.hide();
       log(imageUrl);
     } catch (e) {

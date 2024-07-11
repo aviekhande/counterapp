@@ -1,7 +1,7 @@
 import 'package:equatable/equatable.dart';
 import 'package:json_annotation/json_annotation.dart';
-part 'getproduct_model.g.dart';
-// ---> Model Class 
+// part 'getproduct_model.g.dart';
+// ---> Model Class
 
 @JsonSerializable()
 // ignore: must_be_immutable

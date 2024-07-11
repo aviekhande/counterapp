@@ -52,7 +52,7 @@ part 'getproduct_api.g.dart';
 //   }
 // } 
 
-// ----> using Dio
+// ----> using Retrofit
 @RestApi(baseUrl:productAPIBaseURL)
 abstract class ApiService {
   factory ApiService(Dio dio,{String baseUrl}) = _ApiService;

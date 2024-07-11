@@ -21,12 +21,14 @@ class AppRouter extends $AppRouter {
         AutoRoute(
           page: SignUpScreenRoute.page,
         ),
-        
         AutoRoute(
           page: SignUpScreenRoute.page,
         ),
         AutoRoute(
           page: ProfileScreenRoute.page,
+        ),
+            AutoRoute(
+          page: PostScreenRoute.page,
         ),
         isLogin()!=null?
         AutoRoute(page: HomeScreenRoute.page, path: "/"): AutoRoute(page: HomeScreenRoute.page),

@@ -17,7 +17,11 @@ class ProfiledataBloc extends Bloc<ProfiledataEvent, ProfiledataState> {
     log("${doc?['mobile']}");
     emit(ProfileDataLoading(docSnap: doc));
   }
-  void _onProfileImageUpdate(ProfileUpdate event,Emitter<ProfiledataState> emit) async {
+
+  void _onProfileImageUpdate(
+      ProfileUpdate event, Emitter<ProfiledataState> emit) async {
+    print(event.image);
     emit(ProfileImageLoading(image: event.image));
+
   }
 }

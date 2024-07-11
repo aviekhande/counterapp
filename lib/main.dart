@@ -1,4 +1,3 @@
-
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/core/services/notification/notificaton_service.dart';
 import 'package:counterapp/features/product_details/presentation/bloc/product_bloc/product_bloc.dart';
@@ -14,6 +13,8 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+
+import 'features/posts/presentation/bloc/posts_bloc.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -35,6 +36,7 @@ void main() async {
   locator();
   runApp(const MainApp());
 }
+
 class MainApp extends StatefulWidget {
   const MainApp({super.key});
 
@@ -42,23 +44,22 @@ class MainApp extends StatefulWidget {
   State<MainApp> createState() => _MainAppState();
 }
 
-
 class _MainAppState extends State<MainApp> {
   final _appRouter = AppRouter();
 
-  @override 
-  void initState(){
+  @override
+  void initState() {
     super.initState();
-  
+
     notificationHandler();
   }
 
-void notificationHandler(){
- 
-  FirebaseMessaging.onMessage.listen((event)async{
-    LocalNotificationService().showNotification(event);
-  });
-}
+  void notificationHandler() {
+    FirebaseMessaging.onMessage.listen((event) async {
+      LocalNotificationService().showNotification(event);
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return MultiBlocProvider(
@@ -72,8 +73,11 @@ void notificationHandler(){
         BlocProvider(
           create: (context) => InternetBloc(),
         ),
-          BlocProvider(
+        BlocProvider(
           create: (context) => ProfiledataBloc(),
+        ),
+        BlocProvider(
+          create: (context) => PostsBloc(apiService: getIt()),
         ),
       ],
       child: ScreenUtilInit(

@@ -64,8 +64,11 @@ class __MycontainerState extends State<Mycontainer> {
                     "User Id: ",
                     style: TextStyle(fontSize: 18),
                   ),
-                  Text(
-                    "${widget.postData.userId}",
+                  Padding(
+                    padding: EdgeInsets.only(top: 3.h),
+                    child: Text(
+                      "${widget.postData.userId}",
+                    ),
                   ),
                 ],
               ),
@@ -78,7 +81,11 @@ class __MycontainerState extends State<Mycontainer> {
                     style: TextStyle(fontSize: 18.sp),
                   ),
                   SizedBox(
-                      width: 270.w, child: Text("${widget.postData.title}")),
+                      width: 270.w,
+                      child: Padding(
+                        padding: EdgeInsets.only(top: 4.h),
+                        child: Text("${widget.postData.title}"),
+                      )),
                 ],
               ),
               Row(
@@ -89,7 +96,8 @@ class __MycontainerState extends State<Mycontainer> {
                     style: TextStyle(fontSize: 18),
                   ),
                   Expanded(
-                    child: SizedBox(
+                    child: Container(
+                      padding: EdgeInsets.only(top: 3.h),
                       width: 280,
                       child: Text("${widget.postData.body}"),
                     ),

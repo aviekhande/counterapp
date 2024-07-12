@@ -23,9 +23,7 @@ class WishlistBloc extends HydratedBloc<WishlistEvent, WishlistState> {
   }
   void addWishList(WishListAdd event, Emitter<WishlistState> emit) {
     log("In WishlistLoaded");
-    final currentState = state;
     emit(WishlistLoaded(productrepo.addProduct(event.product)));
-    if (currentState is WishlistLoaded) {}
   }
 
   void removeWishList(WishListRemove event, Emitter<WishlistState> emit) {

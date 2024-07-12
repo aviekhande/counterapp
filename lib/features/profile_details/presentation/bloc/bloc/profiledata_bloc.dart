@@ -19,8 +19,7 @@ class ProfiledataBloc extends Bloc<ProfiledataEvent, ProfiledataState> {
   }
 
   void _onProfileImageUpdate(
-      ProfileUpdate event, Emitter<ProfiledataState> emit) async {
-    print(event.image);
+    ProfileUpdate event, Emitter<ProfiledataState> emit) async {
     emit(ProfileImageLoading(image: event.image));
 
   }

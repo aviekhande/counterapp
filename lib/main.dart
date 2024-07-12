@@ -13,7 +13,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
-
 import 'features/posts/presentation/bloc/posts_bloc.dart';
 
 void main() async {

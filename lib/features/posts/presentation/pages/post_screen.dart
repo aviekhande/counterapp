@@ -1,12 +1,10 @@
-import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:counterapp/core/configs/components/appbar_widget.dart';
 import 'package:counterapp/core/configs/components/drawer_widget.dart';
 import 'package:counterapp/features/posts/presentation/widgets/postcontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import '../bloc/posts_bloc.dart';
 
 @RoutePage()
@@ -31,25 +29,23 @@ class _PostScreenState extends State<PostScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: const PreferredSize(
-          preferredSize: Size(600, 50),
-          child: CommonAppBar(screenName: "Posts")),
+      appBar: PreferredSize(
+          preferredSize: Size.fromHeight(75.h),
+          child: const CommonAppBar(screenName: "Posts")),
       body: BlocBuilder<PostsBloc, PostsState>(
         builder: (context, state) {
           return state is PostsFetch
               ? ListView.builder(
                   controller: scrollController,
-                  itemCount:
-                      //  state.posts!.length,
-                      isLoadingMore
-                          ? state.posts!.length + 1
-                          : state.posts!.length,
+                  itemCount: isLoadingMore
+                      ? state.posts!.length
+                      : state.posts!.length + 1,
                   itemBuilder: (context, index) {
                     return index < state.posts!.length
                         ? Mycontainer(postData: state.posts![index])
                         : const Center(
                             child: CircularProgressIndicator(
-                              color: Colors.black,
+                              color: Colors.blue,
                             ),
                           );
                   },

@@ -1,3 +1,4 @@
+import 'dart:developer';
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/features/product_details/data/models/getproduct_model/getproduct_model.dart';
 import 'package:counterapp/features/wishlist_details/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
@@ -7,7 +8,6 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 class Mycontainer extends StatefulWidget {
   final Product productData;
   const Mycontainer({super.key, required this.productData});
-
   @override
   State<Mycontainer> createState() => __MycontainerState();
 }
@@ -17,10 +17,9 @@ List<Map> _points = <Map>[
 ];
 List<String> points1 = [];
 List<Map> toList1() {
-  _points.forEach((item) {
+  for (var item in _points) {
     points1.add(item.toString());
-  });
-
+  }
   return _points.toList();
 }
 
@@ -129,7 +128,8 @@ class __MycontainerState extends State<Mycontainer> {
                       BlocBuilder<WishlistBloc, WishlistState>(
                         builder: (context, state) {
                           return GestureDetector(
-                              onTap: () async {
+                              onTap: () {
+                                log("IN Like");
                                 !(state is WishlistLoaded &&
                                         state.product
                                             .contains(widget.productData))

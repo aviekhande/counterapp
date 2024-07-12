@@ -1,3 +1,5 @@
+// ignore_for_file: unnecessary_getters_setters
+
 class Posta {
   List<Posts>? _posts;
   int? _total;
@@ -6,16 +8,16 @@ class Posta {
 
   Posta({List<Posts>? posts, int? total, int? skip, int? limit}) {
     if (posts != null) {
-      this._posts = posts;
+      _posts = posts;
     }
     if (total != null) {
-      this._total = total;
+      _total = total;
     }
     if (skip != null) {
-      this._skip = skip;
+      _skip = skip;
     }
     if (limit != null) {
-      this._limit = limit;
+      _limit = limit;
     }
   }
 
@@ -32,7 +34,7 @@ class Posta {
     if (json['posts'] != null) {
       _posts = <Posts>[];
       json['posts'].forEach((v) {
-        _posts!.add(new Posts.fromJson(v));
+        _posts!.add(Posts.fromJson(v));
       });
     }
     _total = json['total'];
@@ -41,13 +43,13 @@ class Posta {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    if (this._posts != null) {
-      data['posts'] = this._posts!.map((v) => v.toJson()).toList();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    if (_posts != null) {
+      data['posts'] = _posts!.map((v) => v.toJson()).toList();
     }
-    data['total'] = this._total;
-    data['skip'] = this._skip;
-    data['limit'] = this._limit;
+    data['total'] = _total;
+    data['skip'] = _skip;
+    data['limit'] = _limit;
     return data;
   }
 }
@@ -70,25 +72,25 @@ class Posts {
       int? views,
       int? userId}) {
     if (id != null) {
-      this._id = id;
+      _id = id;
     }
     if (title != null) {
-      this._title = title;
+      _title = title;
     }
     if (body != null) {
-      this._body = body;
+      _body = body;
     }
     if (tags != null) {
-      this._tags = tags;
+      _tags = tags;
     }
     if (reactions != null) {
-      this._reactions = reactions;
+      _reactions = reactions;
     }
     if (views != null) {
-      this._views = views;
+      _views = views;
     }
     if (userId != null) {
-      this._userId = userId;
+      _userId = userId;
     }
   }
 
@@ -113,23 +115,23 @@ class Posts {
     _body = json['body'];
     _tags = json['tags'].cast<String>();
     _reactions = json['reactions'] != null
-        ? new Reactions.fromJson(json['reactions'])
+        ? Reactions.fromJson(json['reactions'])
         : null;
     _views = json['views'];
     _userId = json['userId'];
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['id'] = this._id;
-    data['title'] = this._title;
-    data['body'] = this._body;
-    data['tags'] = this._tags;
-    if (this._reactions != null) {
-      data['reactions'] = this._reactions!.toJson();
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['id'] = _id;
+    data['title'] = _title;
+    data['body'] = _body;
+    data['tags'] = _tags;
+    if (_reactions != null) {
+      data['reactions'] = _reactions!.toJson();
     }
-    data['views'] = this._views;
-    data['userId'] = this._userId;
+    data['views'] = _views;
+    data['userId'] = _userId;
     return data;
   }
 }
@@ -140,10 +142,10 @@ class Reactions {
 
   Reactions({int? likes, int? dislikes}) {
     if (likes != null) {
-      this._likes = likes;
+      _likes = likes;
     }
     if (dislikes != null) {
-      this._dislikes = dislikes;
+      _dislikes = dislikes;
     }
   }
 
@@ -158,9 +160,9 @@ class Reactions {
   }
 
   Map<String, dynamic> toJson() {
-    final Map<String, dynamic> data = new Map<String, dynamic>();
-    data['likes'] = this._likes;
-    data['dislikes'] = this._dislikes;
+    final Map<String, dynamic> data = <String, dynamic>{};
+    data['likes'] = _likes;
+    data['dislikes'] = _dislikes;
     return data;
   }
 }

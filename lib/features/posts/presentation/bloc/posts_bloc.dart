@@ -33,13 +33,12 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
   }
 
   void _searchPosts(PostsSearch event, Emitter<PostsState> emit) async {
-    Posta posts = await apiService.getPostData(4, event.skip);
     for (int i = 0; i < post!.length; i++) {
       if (post?[i].userId == event.id) {
         post = [post![i]];
         break;
       }
-      if (posts.posts!.length - 1 == i) {
+      if (post!.length - 1 == i) {
         ScaffoldMessenger.of(event.context!)
             .showSnackBar(const SnackBar(content: Text("No User Found")));
       }

@@ -52,7 +52,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
   //   numberController.text = docSnap?['mobile'];
   //   emailController.text = docSnap?['email'];
   //   imageUrl = docSnap?['image'];
-  //   setState(() {});
   //   //  User user =U?ser.fromJson(!docSnap);
   //   return docSnap;
   // }
@@ -245,7 +244,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: TextFormField(
-                      keyboardType: label == "Mobile Number"
+                      keyboardType: label == "mobile"
                           ? TextInputType.number
                           : TextInputType.text,
                       readOnly: label == "Email",
@@ -376,6 +375,16 @@ class _ProfileScreenState extends State<ProfileScreen> {
       await referenceToUpload.putFile(File(file.path));
       imageUrl = await referenceToUpload.getDownloadURL();
       context.read<ProfiledataBloc>().add(ProfileUpdate(image: file.path));
+      await FirebaseFirestore.instance
+          .collection("users")
+          .doc(SessionController().userId)
+          .set({
+        "image": imageUrl,
+        "mobile": numberController.text,
+        'name': nameController.text,
+        'uid': SessionController().userId,
+        'email': emailController.text,
+      });
       context.loaderOverlay.hide();
       log(imageUrl);
     } catch (e) {

@@ -30,9 +30,14 @@ class _PostScreenState extends State<PostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(75.h),
+          preferredSize: Size.fromHeight(80.h),
           child: const CommonAppBar(screenName: "Posts")),
-      body: BlocBuilder<PostsBloc, PostsState>(
+      body: BlocConsumer<PostsBloc, PostsState>(
+        listener: (context, state) {
+          if (state is LoadingState) {
+            isLoadingMore = state.isLoading;
+          }
+        },
         builder: (context, state) {
           return state is PostsFetch
               ? ListView.builder(
@@ -60,16 +65,11 @@ class _PostScreenState extends State<PostScreen> {
   }
 
   void _scrollListener() async {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
+    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
       page = page + 1;
-      setState(() {
-        isLoadingMore = true;
-      });
+      context.read<PostsBloc>().add(LoadingMore(isLoadingMore: true));
       context.read<PostsBloc>().add(PostsLoading(skip: 10 * page));
-      setState(() {
-        isLoadingMore = false;
-      });
+      context.read<PostsBloc>().add(LoadingMore(isLoadingMore: false));
     }
   }
 }

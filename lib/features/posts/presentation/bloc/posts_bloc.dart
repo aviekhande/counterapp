@@ -9,13 +9,16 @@ part 'posts_state.dart';
 class PostsBloc extends Bloc<PostsEvent, PostsState> {
   final ApiService1 apiService;
   List<Posts>? post;
+  List<Posts>? searchPost;
   PostsBloc({required this.apiService}) : super(PostsInitial()) {
     on<PostsInitialEvent>(_initial);
     on<PostsLoading>(_getPosts);
     on<PostsSearch>(_searchPosts);
+    on<LoadingMore>(_loadingMore);
   }
-
+  void _loadingMore(LoadingMore event, Emitter<PostsState> emit) {}
   void _initial(PostsInitialEvent event, Emitter<PostsState> emit) async {
+    post = [];
     emit(PostsInitial());
   }
 
@@ -32,20 +35,46 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     emit(PostsFetch(posts: post));
   }
 
-  void _searchPosts(PostsSearch event, Emitter<PostsState> emit) async {
-    for (int i = 0; i < post!.length; i++) {
-      if (post?[i].userId == event.id) {
-        post = [post![i]];
-        break;
+  bool isPresent(int? postId, int? id) {
+    while (postId != 0) {
+      int temp = postId! % 10;
+      if (temp == id || postId == id) {
+        log("$postId");
+        return true;
       }
-      if (post!.length - 1 == i) {
-        ScaffoldMessenger.of(event.context!)
-            .showSnackBar(const SnackBar(content: Text("No User Found")));
-      }
+      postId = postId ~/ 10;
     }
-    if (post != null) {
+    return false;
+  }
+
+  void _searchPosts(PostsSearch event, Emitter<PostsState> emit) async {
+    // searchPost = post!
+    //     .where(
+    //       (item) => item
+    //           .toString()
+    //           .toLowerCase()
+    //           .contains(event.id.toString().toLowerCase()),
+    //     )
+    //     .toList();
+    for (int i = 0; i < post!.length; i++) {
+      if (isPresent(post?[i].userId, event.id)) {
+        searchPost = searchPost! + [post![i]];
+      }
+      // if (post?[i].userId == event.id) {
+      //   searchPost = [post![i]];
+      //   break;
+      // }
+    }
+    if (searchPost!.isEmpty) {
+      log("$post");
+      ScaffoldMessenger.of(event.context!)
+          .showSnackBar(const SnackBar(content: Text("User Id Not Found")));
       emit(PostsFetch(posts: post));
-      post = [];
+    }
+    if (searchPost!.isNotEmpty) {
+      log("$searchPost");
+      emit(PostsFetch(posts: searchPost));
+      searchPost = [];
     }
   }
 }

@@ -8,3 +8,8 @@ sealed class PostsState  {
   List<Posts>? posts;
   PostsFetch({required this.posts});
  }
+class LoadingState extends PostsState{
+  bool isLoading;
+  LoadingState({required this.isLoading});
+}
+class SearchState extends PostsState{}

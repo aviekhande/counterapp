@@ -1,3 +1,4 @@
+import 'package:counterapp/core/common/bloc/appbar_bloc.dart';
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/core/services/notification/notificaton_service.dart';
 import 'package:counterapp/features/product_details/presentation/bloc/product_bloc/product_bloc.dart';
@@ -77,6 +78,9 @@ class _MainAppState extends State<MainApp> {
         ),
         BlocProvider(
           create: (context) => PostsBloc(apiService: getIt()),
+        ),
+        BlocProvider(
+          create: (context) => AppbarBloc(),
         ),
       ],
       child: ScreenUtilInit(

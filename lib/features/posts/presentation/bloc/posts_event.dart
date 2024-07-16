@@ -15,3 +15,7 @@ class PostsSearch extends PostsEvent {
   BuildContext? context;
   PostsSearch({required this.skip, this.id, this.context});
 }
+  class LoadingMore extends PostsEvent {
+    bool isLoadingMore ;
+    LoadingMore({required this.isLoadingMore});
+  }

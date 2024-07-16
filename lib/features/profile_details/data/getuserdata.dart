@@ -17,7 +17,6 @@ Future<DocumentSnapshot?> getUserData() async {
   // numberController.text = docSnap?['mobile'];
   // emailController.text = docSnap?['email'];
   // imageUrl = docSnap?['image'];
-  // setState(() {});
   //  User user =U?ser.fromJson(!docSnap);
   return docSnap;
 }
@@ -45,7 +44,6 @@ Future<List<Product>> getWishlistData() async {
   // numberController.text = docSnap?['mobile'];
   // emailController.text = docSnap?['email'];
   // imageUrl = docSnap?['image'];
-  // setState(() {});
   //  User user =U?ser.fromJson(!docSnap);
   return wishlist;
 }

@@ -13,3 +13,4 @@ class ProfileImageLoading extends ProfiledataState {
   String image;
   ProfileImageLoading({required this.image});
 }
+class LogoutState extends ProfiledataState{}

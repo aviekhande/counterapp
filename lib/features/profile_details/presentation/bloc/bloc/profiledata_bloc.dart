@@ -10,6 +10,10 @@ class ProfiledataBloc extends Bloc<ProfiledataEvent, ProfiledataState> {
   ProfiledataBloc() : super(ProfiledataInitial()) {
     on<ProfileInfoFetch>(_onProfileUpdate);
     on<ProfileUpdate>(_onProfileImageUpdate);
+    on<Logout>(_onLogout);
+  }
+  void _onLogout(Logout event,Emitter <ProfiledataState> emit ) {
+    emit(LogoutState());
   }
   void _onProfileUpdate(
       ProfileInfoFetch event, Emitter<ProfiledataState> emit) async {

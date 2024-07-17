@@ -1,5 +1,4 @@
 // ignore_for_file: use_build_context_synchronously
-
 import 'dart:developer';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
@@ -19,7 +18,6 @@ import 'package:loader_overlay/loader_overlay.dart';
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
-
   @override
   State<ProfileScreen> createState() => _ProfileScreenState();
 }
@@ -39,23 +37,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String imageUrl = "";
   String imageUrl1 = "";
-  // DocumentSnapshot? docSnap;
-  // Future<DocumentSnapshot?> getUserData() async {
-  //   await FirebaseFirestore.instance
-  //       .collection("users")
-  //       .doc(SessionController().userId)
-  //       .get()
-  //       .then((value) {
-  //     docSnap = value;
-  //   });
-  //   nameController.text = docSnap?['name'];
-  //   numberController.text = docSnap?['mobile'];
-  //   emailController.text = docSnap?['email'];
-  //   imageUrl = docSnap?['image'];
-  //   //  User user =U?ser.fromJson(!docSnap);
-  //   return docSnap;
-  // }
-
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
@@ -90,10 +71,40 @@ class _ProfileScreenState extends State<ProfileScreen> {
     );
   }
 
+  bool isValidMobileNumber(String number) {
+    if (number.length != 10) {
+      return false;
+    }
+    final RegExp mobileRegex = RegExp(r'^\+?[1-9]\d{1,14}$');
+    bool ret;
+    try {
+      ret = mobileRegex.hasMatch(number);
+    } catch (e) {
+      return false;
+    }
+    return ret;
+  }
+
+  bool isValidUsername(String username) {
+    if (username.length < 3 || username.length > 20) {
+      return false;
+    }
+    final validCharacters = RegExp(r'^[a-zA-Z_]+$');
+    if (!validCharacters.hasMatch(username)) {
+      return false;
+    }
+    if (username.contains(' ')) {
+      return false;
+    }
+    return true;
+  }
+
   bool isvalidedata() {
     if (nameController.text.isEmpty ||
         numberController.text.isEmpty ||
-        emailController.text.isEmpty) {
+        emailController.text.isEmpty ||
+        !isValidMobileNumber(numberController.text) ||
+        !isValidUsername(nameController.text)) {
       return false;
     }
     return true;
@@ -107,8 +118,17 @@ class _ProfileScreenState extends State<ProfileScreen> {
           if (state is ProfileImageLoading) {
             imageUrl1 = state.image;
           }
+          if (state is ProfileDataLoading) {
+            nameController.text = state.docSnap?['name'];
+            numberController.text = state.docSnap?['mobile'];
+            emailController.text = state.docSnap?['email'];
+            imageUrl = state.docSnap?['image'];
+          }
         }, builder: (context, state) {
           if (state is ProfileDataLoading) {
+            nameController.text = state.docSnap?['name'];
+            numberController.text = state.docSnap?['mobile'];
+            emailController.text = state.docSnap?['email'];
             imageUrl = state.docSnap?['image'];
           }
           if (state is ProfileImageLoading) {
@@ -177,19 +197,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
         ),
         const SizedBox(height: 20),
         _buildTextField(
-          "name",
+          "Name",
           nameController,
           "Enter your name",
         ),
         const SizedBox(height: 20),
         _buildTextField(
-          "mobile",
+          "Mobile Number",
           numberController,
           "Enter your phone number",
         ),
         const SizedBox(height: 20),
         _buildTextField(
-          "email",
+          "Email",
           emailController,
           "Enter your email address",
         ),
@@ -204,21 +224,15 @@ class _ProfileScreenState extends State<ProfileScreen> {
   ) {
     return BlocConsumer<ProfiledataBloc, ProfiledataState>(
       listener: (context, state) {
-        //  if (state is ProfileDataLoading) {
-        //   print("In ProfileLoadinc");
-        //   nameController.text = state.docSnap?['name'];
-        //   numberController.text = state.docSnap?['mobile'];
-        //   emailController.text = state.docSnap?['email'];
-        //   imageUrl = state.docSnap?['image'];
-        // }
+        if (state is ProfileDataLoading) {
+          // print("In ProfileLoadinc");
+          // nameController.text = state.docSnap?['name'];
+          // numberController.text = state.docSnap?['mobile'];
+          // emailController.text = state.docSnap?['email'];
+          // imageUrl = state.docSnap?['image'];
+        }
       },
       builder: (context, state) {
-        if (state is ProfileDataLoading) {
-          nameController.text = state.docSnap?['name'];
-          numberController.text = state.docSnap?['mobile'];
-          emailController.text = state.docSnap?['email'];
-          imageUrl = state.docSnap?['image'];
-        }
         return Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -244,7 +258,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   const SizedBox(width: 10),
                   Expanded(
                     child: TextFormField(
-                      keyboardType: label == "mobile"
+                      keyboardType: label == "Mobile Number"
                           ? TextInputType.number
                           : TextInputType.text,
                       readOnly: label == "Email",
@@ -287,13 +301,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 'uid': SessionController().userId,
                 'email': emailController.text,
               });
-              log("$imageUrl>>>>>>>>>>>>>>>>>>");
               context.read<ProfiledataBloc>().add(ProfileInfoFetch());
               ScaffoldMessenger.of(context)
                   .showSnackBar(const SnackBar(content: Text("Data Save")));
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
-                  const SnackBar(content: Text("Enter All Details")));
+                  const SnackBar(content: Text("Enter Correct Details")));
             }
           },
           child: Container(

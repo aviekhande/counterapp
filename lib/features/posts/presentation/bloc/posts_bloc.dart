@@ -16,7 +16,11 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     on<PostsSearch>(_searchPosts);
     on<LoadingMore>(_loadingMore);
   }
-  void _loadingMore(LoadingMore event, Emitter<PostsState> emit) {}
+  void _loadingMore(LoadingMore event, Emitter<PostsState> emit) {
+    emit(LoadingState(isLoading: event.isLoadingMore));
+    emit(PostsFetch(posts: post));
+  }
+
   void _initial(PostsInitialEvent event, Emitter<PostsState> emit) async {
     post = [];
     emit(PostsInitial());
@@ -58,7 +62,12 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
     //     .toList();
     for (int i = 0; i < post!.length; i++) {
       if (isPresent(post?[i].userId, event.id)) {
-        searchPost = searchPost! + [post![i]];
+        log("111112${post![i].userId} ");
+        if (searchPost == null) {
+          searchPost = [post![i]];
+        } else {
+          searchPost = searchPost! + [post![i]];
+        }
       }
       // if (post?[i].userId == event.id) {
       //   searchPost = [post![i]];
@@ -72,7 +81,6 @@ class PostsBloc extends Bloc<PostsEvent, PostsState> {
       emit(PostsFetch(posts: post));
     }
     if (searchPost!.isNotEmpty) {
-      log("$searchPost");
       emit(PostsFetch(posts: searchPost));
       searchPost = [];
     }

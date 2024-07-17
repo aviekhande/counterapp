@@ -7,3 +7,4 @@ class ProfileUpdate extends ProfiledataEvent {
   ProfileUpdate({required this.image});
 }
 class ProfileInfoFetch extends ProfiledataEvent{}
+class Logout extends ProfiledataEvent{}

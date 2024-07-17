@@ -1,3 +1,5 @@
+import 'dart:developer';
+
 import 'package:auto_route/auto_route.dart';
 import 'package:counterapp/core/configs/components/appbar_widget.dart';
 import 'package:counterapp/core/configs/components/drawer_widget.dart';
@@ -16,7 +18,7 @@ class PostScreen extends StatefulWidget {
 }
 
 class _PostScreenState extends State<PostScreen> {
-  bool isLoadingMore = false;
+  bool isLoadingMore = true;
   int page = 0;
   final scrollController = ScrollController();
   @override
@@ -30,12 +32,13 @@ class _PostScreenState extends State<PostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(80.h),
+          preferredSize: Size.fromHeight(70.h),
           child: const CommonAppBar(screenName: "Posts")),
       body: BlocConsumer<PostsBloc, PostsState>(
         listener: (context, state) {
           if (state is LoadingState) {
             isLoadingMore = state.isLoading;
+            log("$isLoadingMore");
           }
         },
         builder: (context, state) {
@@ -43,9 +46,10 @@ class _PostScreenState extends State<PostScreen> {
               ? ListView.builder(
                   controller: scrollController,
                   itemCount: isLoadingMore
-                      ? state.posts!.length
-                      : state.posts!.length + 1,
+                      ? state.posts!.length + 1
+                      : state.posts!.length,
                   itemBuilder: (context, index) {
+                    log("IsLoading Change");
                     return index < state.posts!.length
                         ? Mycontainer(postData: state.posts![index])
                         : const Center(
@@ -64,12 +68,14 @@ class _PostScreenState extends State<PostScreen> {
     );
   }
 
-  void _scrollListener() async {
-    if (scrollController.position.pixels == scrollController.position.maxScrollExtent) {
+  void _scrollListener() {
+    if (scrollController.position.pixels ==
+            scrollController.position.maxScrollExtent &&
+        isLoadingMore == true) {
       page = page + 1;
       context.read<PostsBloc>().add(LoadingMore(isLoadingMore: true));
       context.read<PostsBloc>().add(PostsLoading(skip: 10 * page));
-      context.read<PostsBloc>().add(LoadingMore(isLoadingMore: false));
+      // context.read<PostsBloc>().add(LoadingMore(isLoadingMore: false));
     }
   }
 }

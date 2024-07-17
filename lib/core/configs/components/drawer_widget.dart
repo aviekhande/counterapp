@@ -48,7 +48,12 @@ class _CommonDrawerState extends State<CommonDrawer> {
                           ? SvgPicture.asset(
                               "assets/images/Isolation_Mode.svg",
                             )
-                          : Image.network(state.docSnap?['image']),
+                          : FadeInImage.assetNetwork(
+                              placeholder: "assets/images/grey-9026.gif",
+                              image: state.docSnap?['image'],
+                              placeholderCacheHeight: 5,
+                              placeholderCacheWidth: 5,
+                            ),
                     ),
                   ),
                   SizedBox(

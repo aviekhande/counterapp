@@ -1,6 +1,8 @@
 import 'package:auto_route/auto_route.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:counterapp/core/routes/routes_import.gr.dart';
+import 'package:counterapp/core/theme/app_theme.dart';
+import 'package:counterapp/core/theme/bloc/theme_bloc_bloc.dart';
 import 'package:counterapp/features/profile_details/presentation/bloc/bloc/profiledata_bloc.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -29,7 +31,8 @@ class _CommonDrawerState extends State<CommonDrawer> {
         builder: (context, state) {
       return Drawer(
         width: 295.w,
-        backgroundColor: const Color.fromARGB(255, 227, 234, 245),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        //  const Color.fromARGB(255, 227, 234, 245),
         child: state is ProfileDataLoading
             ? Column(
                 children: [
@@ -43,7 +46,8 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     },
                     child: CircleAvatar(
                       radius: 40.w,
-                      backgroundColor: const Color.fromARGB(255, 227, 234, 245),
+                      backgroundColor: Theme.of(context).colorScheme.surface,
+                      //  const Color.fromARGB(255, 227, 234, 245),
                       child: state.docSnap?['image'].isEmpty
                           ? SvgPicture.asset(
                               "assets/images/Isolation_Mode.svg",
@@ -57,7 +61,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                     ),
                   ),
                   SizedBox(
-                    height: 20.h,
+                    height: 10.h,
                   ),
                   Text(
                     "${state.docSnap?['name']}",
@@ -69,6 +73,88 @@ class _CommonDrawerState extends State<CommonDrawer> {
                   Text(
                     "${state.docSnap?['email']}",
                     style: TextStyle(fontSize: 12.sp),
+                  ),
+                  SizedBox(
+                    height: 10.h,
+                  ),
+                  Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(
+                        width: 250.w,
+                      ),
+                      Row(
+                        children: [
+                          SizedBox(
+                            width: 10.w,
+                          ),
+                          Text(
+                            "Theme :",
+                            style: TextStyle(
+                                fontSize: 15.sp, fontWeight: FontWeight.w600),
+                          ),
+                          SizedBox(
+                            width: 7.w,
+                          ),
+                          Container(
+                            height: 20,
+                            width: 50,
+                            decoration: BoxDecoration(
+                                color: Theme.of(context).colorScheme.surface ==
+                                        Colors.grey.shade200
+                                    ? Colors.blue[200]
+                                    : Colors.black,
+                                borderRadius: BorderRadius.circular(10)),
+                            child: Row(
+                              children: [
+                                GestureDetector(
+                                  onTap: () {
+                                    context.read<ThemeBlocBloc>().add(
+                                        ThemeBlocEvent(themeData: lightMode));
+                                  },
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surface ==
+                                                Colors.grey.shade200
+                                            ? Colors.white
+                                            : Colors.black,
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                  ),
+                                ),
+                                SizedBox(
+                                  width: 8.7.w,
+                                ),
+                                GestureDetector(
+                                  onTap: () {
+                                    context.read<ThemeBlocBloc>().add(
+                                        ThemeBlocEvent(themeData: darkMode));
+                                  },
+                                  child: Container(
+                                    height: 20,
+                                    width: 20,
+                                    decoration: BoxDecoration(
+                                        color: Theme.of(context)
+                                                    .colorScheme
+                                                    .surface !=
+                                                Colors.grey.shade200
+                                            ? Colors.white
+                                            : Colors.blue[200],
+                                        borderRadius:
+                                            BorderRadius.circular(10)),
+                                  ),
+                                )
+                              ],
+                            ),
+                          )
+                        ],
+                      ),
+                      
+                    ],
                   ),
                 ],
               )

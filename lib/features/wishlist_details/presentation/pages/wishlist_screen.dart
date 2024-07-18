@@ -1,11 +1,11 @@
 import 'package:auto_route/annotations.dart';
-import 'package:counterapp/core/configs/components/appbar_widget.dart';
-import 'package:counterapp/core/configs/components/drawer_widget.dart';
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/features/wishlist_details/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
 import 'package:counterapp/features/wishlist_details/presentation/widgets/wishlistcontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+
+import '../../../../core/configs/components/appbar_widget.dart';
 
 @RoutePage()
 class WishListScreen extends StatefulWidget {
@@ -36,13 +36,7 @@ class _ProductScreenState extends State<WishListScreen> {
     return Scaffold(
         appBar: const PreferredSize(
             preferredSize: Size(10, 50),
-            child: CommonAppBar(screenName: "Product")),
-        // AppBar(
-        //     backgroundColor: Colors.blue,
-        //     title: const Text(
-        //       "WishListProduct",
-        //       style: TextStyle(color: Colors.white),
-        //     )),
+            child: CommonAppBar(screenName: "WishlistProduct")),
         body: BlocBuilder<InternetBloc, InternetStatus>(
           builder: (context, state) {
             return state.status == ConnectivityStatus.connected
@@ -66,8 +60,6 @@ class _ProductScreenState extends State<WishListScreen> {
                     child: Text("No Internet Connection"),
                   );
           },
-        ),
-        drawer: const CommonDrawer(),
-        );
+        ));
   }
 }

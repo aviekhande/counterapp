@@ -21,7 +21,7 @@ import 'package:counterapp/features/product_details/presentation/pages/product_s
     as _i4;
 import 'package:counterapp/features/profile_details/presentation/pages/profil_screen.dart'
     as _i5;
-import 'package:counterapp/features/wishlist_details/presentation/widgets/wishlist_screen.dart'
+import 'package:counterapp/features/wishlist_details/presentation/pages/wishlist_screen.dart'
     as _i7;
 
 abstract class $AppRouter extends _i8.RootStackRouter {

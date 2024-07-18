@@ -87,8 +87,10 @@ class _CommonAppBarState extends State<CommonAppBar> {
                       onTap: () {
                         AutoRouter.of(context).popForced();
                       },
-                      child: const Icon(Icons.arrow_back_rounded,
-                          color: Colors.white),
+                      child: Icon(Icons.arrow_back_rounded,
+                          color: Theme.of(context).colorScheme.surface
+                          //  Colors.white
+                          ),
                     )
                   : Column(
                       children: [
@@ -99,8 +101,11 @@ class _CommonAppBarState extends State<CommonAppBar> {
                           onTap: () {
                             Scaffold.of(context).openDrawer();
                           },
-                          child:
-                              const Icon(Icons.menu_sharp, color: Colors.white),
+                          child: Icon(Icons.menu_sharp,
+                              color: Theme.of(context).colorScheme.primary
+                              //  Colors.white
+
+                              ),
                         ),
                       ],
                     ),
@@ -113,8 +118,9 @@ class _CommonAppBarState extends State<CommonAppBar> {
                 children: [
                   Text(
                     widget.screenName,
-                    style: const TextStyle(
-                        color: Colors.white,
+                    style: TextStyle(
+                        color: Theme.of(context).colorScheme.primary,
+                        // Colors.white,
                         fontSize: 22,
                         fontWeight: FontWeight.w600),
                   ),
@@ -208,7 +214,10 @@ class _CommonAppBarState extends State<CommonAppBar> {
                   context.read<ProfiledataBloc>().add(Logout());
                   AutoRouter.of(context).replaceAll([const LoginScreenRoute()]);
                 },
-                child: const Icon(Icons.logout_outlined, color: Colors.white),
+                child: Icon(Icons.logout_outlined,
+                    color: Theme.of(context).colorScheme.surface
+                    //  Colors.white
+                    ),
               )
             : const SizedBox(),
         SizedBox(

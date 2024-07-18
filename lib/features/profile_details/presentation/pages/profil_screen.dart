@@ -23,7 +23,6 @@ class ProfileScreen extends StatefulWidget {
 }
 
 DocumentSnapshot? docSnap;
-
 class _ProfileScreenState extends State<ProfileScreen> {
   TextEditingController nameController = TextEditingController();
   TextEditingController numberController = TextEditingController();
@@ -41,7 +40,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget build(BuildContext context) {
     return LoaderOverlay(
       child: Scaffold(
-        backgroundColor: const Color.fromRGBO(255, 255, 255, 1),
+        backgroundColor: Theme.of(context).colorScheme.surface,
+        // const Color.fromRGBO(255, 255, 255, 1),
         appBar: PreferredSize(
           preferredSize: Size.fromHeight(40.h),
           child: const CommonAppBar(
@@ -157,18 +157,30 @@ class _ProfileScreenState extends State<ProfileScreen> {
             height: 34.h,
             decoration: BoxDecoration(
               border: Border.all(
-                color: const Color.fromRGBO(23, 55, 175, 1),
+                color: Theme.of(context).colorScheme.surface ==
+                        Colors.grey.shade200
+                    ? const Color.fromRGBO(23, 55, 175, 1)
+                    : Colors.grey,
               ),
               borderRadius: BorderRadius.circular(200),
             ),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
-                SvgPicture.asset("assets/images/Upload.svg"),
+                SvgPicture.asset(
+                  "assets/images/Upload.svg",
+                  color: Theme.of(context).colorScheme.surface ==
+                          Colors.grey.shade200
+                      ? const Color.fromRGBO(23, 55, 175, 1)
+                      : Colors.grey,
+                ),
                 Text(
                   "Upload image",
                   style: GoogleFonts.poppins(
-                    color: const Color.fromRGBO(23, 55, 175, 1),
+                    color: Theme.of(context).colorScheme.surface ==
+                            Colors.grey.shade200
+                        ? const Color.fromRGBO(23, 55, 175, 1)
+                        : Colors.grey,
                     fontSize: 10.sp,
                     fontWeight: FontWeight.w500,
                   ),
@@ -190,7 +202,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Text(
           "Primary info",
           style: GoogleFonts.poppins(
-            color: const Color.fromRGBO(29, 18, 18, 0.75),
+            // color: const Color.fromRGBO(29, 18, 18, 0.75),
             fontSize: 10.sp,
             fontWeight: FontWeight.w500,
           ),
@@ -239,7 +251,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text(
               label,
               style: GoogleFonts.poppins(
-                color: const Color.fromRGBO(18, 23, 29, 1),
+                // color: const Color.fromRGBO(18, 23, 29, 1),
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w400,
               ),
@@ -249,7 +261,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
               padding: EdgeInsets.only(left: 16.w),
               decoration: BoxDecoration(
                 borderRadius: BorderRadius.circular(4),
-                color: const Color.fromRGBO(18, 23, 29, 0.05),
+                color: Theme.of(context).colorScheme.surface !=
+                        Colors.grey.shade200
+                    ? Colors.grey
+                    : const Color.fromRGBO(18, 23, 29, 0.05),
+                //  const Color.fromRGBO(18, 23, 29, 0.05),
                 border:
                     Border.all(color: const Color.fromRGBO(18, 23, 29, 0.1)),
               ),

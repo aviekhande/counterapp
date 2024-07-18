@@ -47,7 +47,8 @@ class __MycontainerState extends State<Mycontainer> {
       margin: const EdgeInsets.all(10),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.primary,
+          // Colors.white,
           borderRadius: BorderRadius.circular(10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
@@ -71,7 +72,9 @@ class __MycontainerState extends State<Mycontainer> {
                 children: [
                   const Text(
                     "Title: ",
-                    style: TextStyle(fontSize: 20),
+                    style: TextStyle(
+                      fontSize: 20,
+                    ),
                   ),
                   Text("${widget.productData.title}"),
                 ],

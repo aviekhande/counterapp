@@ -1,6 +1,8 @@
 import 'package:counterapp/core/common/bloc/appbar_bloc.dart';
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/core/services/notification/notificaton_service.dart';
+import 'package:counterapp/core/theme/app_theme.dart';
+import 'package:counterapp/core/theme/bloc/theme_bloc_bloc.dart';
 import 'package:counterapp/features/product_details/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:counterapp/features/profile_details/presentation/bloc/bloc/profiledata_bloc.dart';
 import 'package:counterapp/features/wishlist_details/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
@@ -11,10 +13,12 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
 import 'features/posts/presentation/bloc/posts_bloc.dart';
+import 'flutter_gen/gen_l10n/app_localizations.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -45,6 +49,8 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
+    // final FlutterLocalization _localization = FlutterLocalization.instance;
+
   final _appRouter = AppRouter();
 
   @override
@@ -82,15 +88,28 @@ class _MainAppState extends State<MainApp> {
         BlocProvider(
           create: (context) => AppbarBloc(),
         ),
+        BlocProvider(
+          create: (context) => ThemeBlocBloc(),
+        ),
       ],
       child: ScreenUtilInit(
           designSize: const Size(360, 690),
           minTextAdapt: true,
           splitScreenMode: true,
           builder: (_, child) {
-            return MaterialApp.router(
-              debugShowCheckedModeBanner: false,
-              routerConfig: _appRouter.config(),
+            return BlocBuilder<ThemeBlocBloc, ThemeBlocState>(
+              builder: (context, state) {
+                return MaterialApp.router(
+                  theme: state is ThemeChangeBloc ? state.themeData : lightMode,
+                  darkTheme:
+                      state is ThemeChangeBloc ? state.themeData : darkMode,
+                  localizationsDelegates:
+                    AppLocalizations.localizationsDelegates,
+                  supportedLocales:  AppLocalizations.supportedLocales,
+                  debugShowCheckedModeBanner: false,
+                  routerConfig: _appRouter.config(),
+                );
+              },
             );
           }),
     );

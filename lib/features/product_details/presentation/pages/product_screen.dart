@@ -148,7 +148,6 @@ class _ProductScreenState extends State<ProductScreen> {
       // await GetProducts().getProductData();
       // context.read<ProductBloc>().add(const ProductEvent());
       log("Call Api>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-      
     }
   }
 }

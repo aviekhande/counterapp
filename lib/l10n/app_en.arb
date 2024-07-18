@@ -1,0 +1,18 @@
+{
+    "themeName":"Theme",
+    "homeScreen":"HomeScreen",
+    "loadProducts":"Load Products",
+    "loadWishlistProducts":"Load WishList Products",
+    "loadPosts":"Load Posts",
+    "profile":"Profile",
+    "uploadImage":"Upload image",
+    "primary": "Primary info",
+    "name":"Name",
+    "num":"Mobile Number",
+    "email":"Email",
+    "updateChange":"Update Changes",
+    "product":"Product",
+    "wishlistProduct":"WishlistProduct",
+    "posts":"Posts",
+    "search":"Search user id..."
+}

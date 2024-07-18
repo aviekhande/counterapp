@@ -1,0 +1,18 @@
+{
+    "themeName":"थिम",
+    "homeScreen":"होम स्क्रीन",
+    "loadProducts":"उत्पाद लोड करें",
+    "loadWishlistProducts":"इच्छा सूची उत्पाद लोड करें",
+    "loadPosts":"पोस्ट लोड करें",
+    "profile":"प्रोफ़ाइल",
+    "uploadImage":"तस्विर अपलोड करना",
+    "primary": "प्राथमिक जानकारी",
+    "name":"नाम",
+    "num":"मोबाइल नंबर",
+    "email":"ईमेल",
+    "updateChange":"परिवर्तन अद्यतन करें",
+    "product":"उत्पाद",
+    "wishlistProduct":"इच्छा सूची उत्पाद",
+    "posts":"पोस्ट",
+    "search":"उपयोगकर्ता आईडी खोजें..."
+}

@@ -58,7 +58,7 @@ class _HomeScreenState extends State<HomeScreen> {
             },
             builder: (context, state) {
               return Scaffold(
-                backgroundColor: Colors.white,
+                backgroundColor: Theme.of(context).colorScheme.surface,
                 appBar: const PreferredSize(
                     preferredSize: Size(50, 50),
                     child: CommonAppBar(screenName: "HomeScreen")),
@@ -69,6 +69,7 @@ class _HomeScreenState extends State<HomeScreen> {
                       child: ElevatedButton(
                         style: const ButtonStyle(
                             backgroundColor: WidgetStatePropertyAll(
+                                // Theme.of(context).colorScheme.primary
                                 Color.fromARGB(255, 114, 182, 214)),
                             minimumSize: WidgetStatePropertyAll(Size(300, 50))),
                         onPressed: () async {
@@ -84,9 +85,12 @@ class _HomeScreenState extends State<HomeScreen> {
                                 .add(const ProductEvent());
                           }
                         },
-                        child: const Text(
+                        child: Text(
                           "Load Products",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              // color: Colors.white,
+                              fontSize: 20),
                         ),
                       ),
                     ),
@@ -123,10 +127,13 @@ class _HomeScreenState extends State<HomeScreen> {
                                   }
                                   context.loaderOverlay.hide();
                                 },
-                                child: const Text(
+                                child: Text(
                                   "Load WishList Products",
                                   style: TextStyle(
-                                      color: Colors.white, fontSize: 20),
+                                      color:
+                                          Theme.of(context).colorScheme.primary,
+                                      // Colors.white,
+                                      fontSize: 20),
                                 ),
                               );
                             },
@@ -158,9 +165,12 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                           context.loaderOverlay.hide();
                         },
-                        child: const Text(
+                        child: Text(
                           "Load Posts",
-                          style: TextStyle(color: Colors.white, fontSize: 20),
+                          style: TextStyle(
+                              color: Theme.of(context).colorScheme.primary,
+                              // Colors.white,
+                              fontSize: 20),
                         ),
                       );
                     })

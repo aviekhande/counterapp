@@ -6,6 +6,7 @@ import 'package:counterapp/features/auth/domain/usecases/authentication.dart';
 import 'package:counterapp/features/auth/presentation/widgets/snackbar.dart';
 import "package:flutter/material.dart";
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:flutter_svg/flutter_svg.dart';
 
 import '../../../../core/services/network/bloc/internet_bloc/internet_bloc.dart';
@@ -36,7 +37,6 @@ class SignUpState extends State {
   void signUpUser() async {
     // set is loading to true.
 
-    // signup user using our authmethod
     String res = await AuthMethod().signUpUser(
         email: emailController.text,
         password: passwordController.text,
@@ -44,7 +44,7 @@ class SignUpState extends State {
     // if string return is success, user has been creaded and navigate to next screen other witse show error.
     if (res == "success") {
       //navigate to the next screen
-      AutoRouter.of(context).push(const HomeScreenRoute());
+      AutoRouter.of(context).push(const SplashScreenRoute());
       showSnackBar(context, res);
     } else {
       // show error
@@ -85,21 +85,21 @@ class SignUpState extends State {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 30.h,
                     ),
                     Center(
                         child: SvgPicture.asset("assets/images/Group 2.svg")),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 30.h,
                     ),
                     const Text(
                       "Sign Up",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 25),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 10.h,
                     ),
                     TextFormField(
                       controller: nameController,
@@ -115,8 +115,8 @@ class SignUpState extends State {
                         return null;
                       },
                     ),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 30.h,
                     ),
                     TextFormField(
                       controller: emailController,
@@ -132,8 +132,8 @@ class SignUpState extends State {
                         return null;
                       },
                     ),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 30.h,
                     ),
                     TextFormField(
                       textAlignVertical: TextAlignVertical.top,
@@ -154,8 +154,8 @@ class SignUpState extends State {
                         return null;
                       },
                     ),
-                    const SizedBox(
-                      height: 50,
+                    SizedBox(
+                      height: 40.h,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -170,7 +170,7 @@ class SignUpState extends State {
                         }
                       },
                       child: Container(
-                        height: 54,
+                        height: 40.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
@@ -183,8 +183,8 @@ class SignUpState extends State {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 25.h,
                     ),
                     Row(
                       children: [

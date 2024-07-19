@@ -61,5 +61,6 @@ flutter:
     - assets/images/Isolation_Mode.svg
     - assets/images/Upload.svg
     - assets/images/grey-9026.gif
+    - assets/images/FJE-yDcXEAMsxeD.jpeg
 flutter_intl:
   enabled: true

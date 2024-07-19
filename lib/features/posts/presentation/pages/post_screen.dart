@@ -1,5 +1,4 @@
 import 'dart:developer';
-
 import 'package:auto_route/auto_route.dart';
 import 'package:counterapp/core/configs/components/appbar_widget.dart';
 import 'package:counterapp/core/configs/components/drawer_widget.dart';
@@ -7,6 +6,7 @@ import 'package:counterapp/features/posts/presentation/widgets/postcontainer.dar
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
+import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 import '../bloc/posts_bloc.dart';
 
 @RoutePage()
@@ -33,7 +33,7 @@ class _PostScreenState extends State<PostScreen> {
     return Scaffold(
       appBar: PreferredSize(
           preferredSize: Size.fromHeight(70.h),
-          child: const CommonAppBar(screenName: "Posts")),
+          child: CommonAppBar(screenName: AppLocalizations.of(context)!.posts)),
       body: BlocConsumer<PostsBloc, PostsState>(
         listener: (context, state) {
           if (state is LoadingState) {

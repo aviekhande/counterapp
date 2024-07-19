@@ -4,7 +4,6 @@ import 'package:counterapp/core/static.dart';
 import 'package:counterapp/features/product_details/data/models/getproduct_model/getproduct_model.dart';
 import 'package:equatable/equatable.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
-
 import '../../../../../auth/domain/usecases/sessioncontroller.dart';
 import '../../../../../profile_details/data/getuserdata.dart';
 part 'wishlist_event.dart';

@@ -2,6 +2,7 @@ import 'dart:developer';
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/features/product_details/data/models/getproduct_model/getproduct_model.dart';
 import 'package:counterapp/features/wishlist_details/presentation/bloc/wishlist_bloc/bloc/wishlist_bloc.dart';
+import 'package:counterapp/flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -70,9 +71,9 @@ class __MycontainerState extends State<Mycontainer> {
                 mainAxisAlignment: MainAxisAlignment.start,
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Title: ",
-                    style: TextStyle(
+                  Text(
+                    AppLocalizations.of(context)!.title,
+                    style: const TextStyle(
                       fontSize: 20,
                     ),
                   ),
@@ -82,18 +83,18 @@ class __MycontainerState extends State<Mycontainer> {
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  const Text(
-                    "Description: ",
-                    style: TextStyle(fontSize: 20),
+                  Text(
+                    AppLocalizations.of(context)!.description,
+                    style: const TextStyle(fontSize: 20),
                   ),
                   Text('${widget.productData.description}'),
                 ],
               ),
               Row(
                 children: [
-                  const Text(
-                    "Price : ",
-                    style: TextStyle(fontSize: 20),
+                  Text(
+                    AppLocalizations.of(context)!.price,
+                    style: const TextStyle(fontSize: 20),
                   ),
                   Text("${widget.productData.price}"),
                 ],
@@ -104,9 +105,9 @@ class __MycontainerState extends State<Mycontainer> {
                     children: [
                       Row(
                         children: [
-                          const Text(
-                            "Rating : ",
-                            style: TextStyle(fontSize: 20),
+                          Text(
+                            AppLocalizations.of(context)!.rating,
+                            style: const TextStyle(fontSize: 20),
                           ),
                           Text("${widget.productData.rating?.rate}"),
                         ],
@@ -116,9 +117,9 @@ class __MycontainerState extends State<Mycontainer> {
                       ),
                       Row(
                         children: [
-                          const Text(
-                            "Count : ",
-                            style: TextStyle(fontSize: 20),
+                          Text(
+                            AppLocalizations.of(context)!.count,
+                            style: const TextStyle(fontSize: 20),
                           ),
                           Text("${widget.productData.rating?.count}"),
                         ],
@@ -154,7 +155,9 @@ class __MycontainerState extends State<Mycontainer> {
                                     ));
                         },
                       ),
-                      const Text("Wishlist")
+                      Text(
+                        AppLocalizations.of(context)!.wishlist,
+                      )
                     ],
                   ),
                 ],

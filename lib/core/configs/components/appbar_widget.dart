@@ -11,6 +11,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../flutter_gen/gen_l10n/app_localizations.dart';
+
 class CommonAppBar extends StatefulWidget {
   final String screenName;
   final bool isProfile;
@@ -68,19 +70,19 @@ class _CommonAppBarState extends State<CommonAppBar> {
       flexibleSpace: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
-          widget.screenName == "Posts"
-              ? const SizedBox(
-                  height: 30,
+          widget.screenName == "Posts" || widget.screenName == "पोस्ट"
+              ? SizedBox(
+                  height: 30.h,
                 )
-              : const SizedBox(
-                  height: 40,
+              : SizedBox(
+                  height: 40.h,
                 ),
           Row(
             crossAxisAlignment: CrossAxisAlignment.start,
             mainAxisAlignment: MainAxisAlignment.start,
             children: [
-              const SizedBox(
-                width: 10,
+              SizedBox(
+                width: 10.w,
               ),
               widget.isProfile
                   ? GestureDetector(
@@ -109,8 +111,8 @@ class _CommonAppBarState extends State<CommonAppBar> {
                         ),
                       ],
                     ),
-              const SizedBox(
-                width: 10,
+              SizedBox(
+                width: 10.w,
               ),
               Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
@@ -127,17 +129,17 @@ class _CommonAppBarState extends State<CommonAppBar> {
                   SizedBox(
                     height: 4.h,
                   ),
-                  widget.screenName == "Posts"
+                  widget.screenName == "Posts" || widget.screenName == "पोस्ट"
                       ? Row(
                           children: [
                             Container(
                               // padding: EdgeInsets.all(5),
-                              height: 40,
+                              height: 30.h,
                               width: 270.w,
-                              decoration: const BoxDecoration(
-                                  color: Colors.white,
-                                  borderRadius:
-                                      BorderRadius.all(Radius.circular(20))),
+                              decoration: BoxDecoration(
+                                  color: Theme.of(context).colorScheme.surface,
+                                  borderRadius: const BorderRadius.all(
+                                      Radius.circular(20))),
                               child: Row(
                                 children: [
                                   SizedBox(
@@ -160,14 +162,17 @@ class _CommonAppBarState extends State<CommonAppBar> {
                                           controller: searchController,
                                           cursorRadius:
                                               const Radius.circular(100),
-                                          cursorHeight: 20,
-                                          decoration: const InputDecoration(
+                                          cursorHeight: 20.h,
+                                          decoration: InputDecoration(
                                               hintStyle: TextStyle(
-                                                  fontSize: 18,
+                                                  fontSize: 16.sp,
                                                   fontWeight: FontWeight.w500),
-                                              contentPadding: EdgeInsets.only(
-                                                  left: 10, bottom: 10),
-                                              hintText: "search user id...",
+                                              contentPadding:
+                                                  const EdgeInsets.only(
+                                                      left: 10, bottom: 10),
+                                              hintText:
+                                                  AppLocalizations.of(context)!
+                                                      .search,
                                               border: InputBorder.none),
                                         );
                                       },
@@ -177,7 +182,9 @@ class _CommonAppBarState extends State<CommonAppBar> {
                                       onPressed: () {
                                         _sendrequest();
                                       },
-                                      icon: const Icon(Icons.search))
+                                      icon: const Icon(
+                                        Icons.search,
+                                      ))
                                 ],
                               ),
                             ),
@@ -189,7 +196,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
                                   context
                                       .read<PostsBloc>()
                                       .add(PostsLoading(skip: 0));
-                                  context.read<AppbarBloc>().add(clearSearch());
+                                  context.read<AppbarBloc>().add(ClearSearch());
                                   log("reset Pressed");
                                 },
                                 icon: const Icon(

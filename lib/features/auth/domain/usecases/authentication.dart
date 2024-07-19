@@ -33,6 +33,10 @@ class AuthMethod {
           "image": "",
           "mobile": ""
         });
+         await _fireStore.collection("startup").doc(cred.user!.uid).set({
+          'display_lang': true,
+          'display_switch': true,
+        });
 
         res = "success";
       }

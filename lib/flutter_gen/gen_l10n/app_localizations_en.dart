@@ -51,4 +51,31 @@ class AppLocalizationsEn extends AppLocalizations {
 
   @override
   String get search => 'Search user id...';
+
+  @override
+  String get internet => 'Please connect to Internet';
+
+  @override
+  String get noWishlist => 'No Wishlist found';
+
+  @override
+  String get lang => 'Languages';
+
+  @override
+  String get title => 'Title: ';
+
+  @override
+  String get description => 'Description: ';
+
+  @override
+  String get price => 'Price: ';
+
+  @override
+  String get rating => 'Rating: ';
+
+  @override
+  String get count => 'Count: ';
+
+  @override
+  String get wishlist => 'Wishlist: ';
 }

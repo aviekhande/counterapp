@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
 import '../../../../core/configs/components/appbar_widget.dart';
+import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
 
 @RoutePage()
 class WishListScreen extends StatefulWidget {
@@ -34,9 +35,10 @@ class _ProductScreenState extends State<WishListScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-        appBar: const PreferredSize(
-            preferredSize: Size(10, 50),
-            child: CommonAppBar(screenName: "WishlistProduct")),
+        appBar: PreferredSize(
+            preferredSize: const Size(10, 50),
+            child: CommonAppBar(
+                screenName: AppLocalizations.of(context)!.wishlistProduct)),
         body: BlocBuilder<InternetBloc, InternetStatus>(
           builder: (context, state) {
             return state.status == ConnectivityStatus.connected
@@ -51,13 +53,13 @@ class _ProductScreenState extends State<WishListScreen> {
                                   index: index,
                                 );
                               })
-                          : const Center(
-                              child: Text("No Wishlist found"),
+                          :  Center(
+                              child: Text(AppLocalizations.of(context)!.noWishlist),
                             );
                     },
                   )
-                : const Center(
-                    child: Text("No Internet Connection"),
+                : Center(
+                    child: Text(AppLocalizations.of(context)!.internet),
                   );
           },
         ));

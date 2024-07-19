@@ -1,3 +1,5 @@
+// ignore_for_file: depend_on_referenced_packages
+
 import 'dart:async';
 
 import 'package:flutter/foundation.dart';
@@ -188,6 +190,60 @@ abstract class AppLocalizations {
   /// In en, this message translates to:
   /// **'Search user id...'**
   String get search;
+
+  /// No description provided for @internet.
+  ///
+  /// In en, this message translates to:
+  /// **'Please connect to Internet'**
+  String get internet;
+
+  /// No description provided for @noWishlist.
+  ///
+  /// In en, this message translates to:
+  /// **'No Wishlist found'**
+  String get noWishlist;
+
+  /// No description provided for @lang.
+  ///
+  /// In en, this message translates to:
+  /// **'Languages'**
+  String get lang;
+
+  /// No description provided for @title.
+  ///
+  /// In en, this message translates to:
+  /// **'Title: '**
+  String get title;
+
+  /// No description provided for @description.
+  ///
+  /// In en, this message translates to:
+  /// **'Description: '**
+  String get description;
+
+  /// No description provided for @price.
+  ///
+  /// In en, this message translates to:
+  /// **'Price: '**
+  String get price;
+
+  /// No description provided for @rating.
+  ///
+  /// In en, this message translates to:
+  /// **'Rating: '**
+  String get rating;
+
+  /// No description provided for @count.
+  ///
+  /// In en, this message translates to:
+  /// **'Count: '**
+  String get count;
+
+  /// No description provided for @wishlist.
+  ///
+  /// In en, this message translates to:
+  /// **'Wishlist: '**
+  String get wishlist;
 }
 
 class _AppLocalizationsDelegate extends LocalizationsDelegate<AppLocalizations> {

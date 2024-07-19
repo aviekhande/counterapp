@@ -6,6 +6,7 @@ import "package:counterapp/features/auth/domain/usecases/google_auth.dart";
 import "package:counterapp/features/auth/presentation/widgets/snackbar.dart";
 import "package:flutter/material.dart";
 import "package:flutter_bloc/flutter_bloc.dart";
+import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:google_sign_in/google_sign_in.dart";
 
@@ -58,7 +59,7 @@ class _LoginScreenState extends State {
     if (res == "success") {
       LocalNotificationService().uploadFcmToken();
       // navigate to the home screen
-      AutoRouter.of(context).push(const HomeScreenRoute());
+      AutoRouter.of(context).push(const SplashScreenRoute());
       emailController.clear();
       passwordController.clear();
       showSnackBar(context, "Login successful");
@@ -87,21 +88,21 @@ class _LoginScreenState extends State {
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 30.h,
                     ),
                     Center(
                         child: SvgPicture.asset("assets/images/Group 1.svg")),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 30.h,
                     ),
                     const Text(
                       "Log In",
                       textAlign: TextAlign.left,
                       style: TextStyle(fontSize: 25),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 10.h,
                     ),
                     TextFormField(
                       controller: emailController,
@@ -117,8 +118,8 @@ class _LoginScreenState extends State {
                         return null;
                       },
                     ),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 30.h,
                     ),
                     TextFormField(
                       obscureText: unshowpass,
@@ -147,8 +148,8 @@ class _LoginScreenState extends State {
                         return null;
                       },
                     ),
-                    const SizedBox(
-                      height: 50,
+                    SizedBox(
+                      height: 50.h,
                     ),
                     GestureDetector(
                       onTap: () {
@@ -171,7 +172,7 @@ class _LoginScreenState extends State {
                         // }
                       },
                       child: Container(
-                        height: 54,
+                        height: 40.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(5),
@@ -184,8 +185,8 @@ class _LoginScreenState extends State {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 30,
+                    SizedBox(
+                      height: 25.h,
                     ),
                     GestureDetector(
                       onTap: () async {
@@ -198,14 +199,14 @@ class _LoginScreenState extends State {
                               await FirebaseServices().signInWithGoogle();
                           if (login) {
                             AutoRouter.of(context)
-                                .push(const HomeScreenRoute());
+                                .push(const SplashScreenRoute());
                             emailController.clear();
                             passwordController.clear();
                           }
                         }
                       },
                       child: Container(
-                        height: 40,
+                        height: 30.h,
                         width: double.infinity,
                         decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(25),
@@ -215,10 +216,10 @@ class _LoginScreenState extends State {
                           children: [
                             SvgPicture.asset(
                               "assets/images/google.svg",
-                              height: 25,
+                              height: 20.h,
                             ),
-                            const SizedBox(
-                              width: 10,
+                            SizedBox(
+                              width: 10.w,
                             ),
                             const Text("Continue With Google",
                                 style: TextStyle(
@@ -227,8 +228,8 @@ class _LoginScreenState extends State {
                         ),
                       ),
                     ),
-                    const SizedBox(
-                      height: 10,
+                    SizedBox(
+                      height: 10.h,
                     ),
                     Row(
                       mainAxisAlignment: MainAxisAlignment.center,

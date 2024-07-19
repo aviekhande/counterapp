@@ -1,3 +1,5 @@
+// ignore_for_file: use_super_parameters
+
 import 'app_localizations.dart';
 
 /// The translations for Hindi (`hi`).
@@ -5,7 +7,7 @@ class AppLocalizationsHi extends AppLocalizations {
   AppLocalizationsHi([String locale = 'hi']) : super(locale);
 
   @override
-  String get themeName => 'विषय';
+  String get themeName => 'थिम';
 
   @override
   String get homeScreen => 'होम स्क्रीन';
@@ -51,4 +53,31 @@ class AppLocalizationsHi extends AppLocalizations {
 
   @override
   String get search => 'उपयोगकर्ता आईडी खोजें...';
+
+  @override
+  String get internet => 'कृपया इंटरनेट से जुड़ें';
+
+  @override
+  String get noWishlist => 'कोई इच्छा सूची नहीं मिली';
+
+  @override
+  String get lang => 'भाषा';
+
+  @override
+  String get title => 'शीर्षक: ';
+
+  @override
+  String get description => 'विवरण: ';
+
+  @override
+  String get price => 'कीमत: ';
+
+  @override
+  String get rating => 'रेटिंग: ';
+
+  @override
+  String get count => 'गिनती: ';
+
+  @override
+  String get wishlist => 'इच्छा सूची ';
 }

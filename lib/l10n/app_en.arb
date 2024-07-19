@@ -14,5 +14,14 @@
     "product":"Product",
     "wishlistProduct":"WishlistProduct",
     "posts":"Posts",
-    "search":"Search user id..."
+    "search":"Search user id...",
+    "internet":"Please connect to Internet",
+    "noWishlist":"No Wishlist found",
+    "lang":"Languages",
+    "title":"Title: ",
+    "description":"Description: ",
+    "price":"Price: ",
+    "rating":"Rating: ",
+    "count":"Count: ",
+    "wishlist":"Wishlist: "
 }

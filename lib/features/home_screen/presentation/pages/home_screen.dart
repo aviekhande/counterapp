@@ -10,6 +10,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
+
 @RoutePage()
 class HomeScreen extends StatefulWidget {
   const HomeScreen({super.key});
@@ -24,7 +26,6 @@ class _HomeScreenState extends State<HomeScreen> {
     internetBloc = context.read<InternetBloc>();
     internetBloc.checkInternet();
     internetBloc.trackConnectivityChange();
-    context.read<WishlistBloc>().add(WishListfetch());
     super.initState();
   }
 
@@ -52,16 +53,17 @@ class _HomeScreenState extends State<HomeScreen> {
           child: BlocConsumer<InternetBloc, InternetStatus>(
             listener: (context, state) {
               if (state.status == ConnectivityStatus.disconnected) {
-                ScaffoldMessenger.of(context).showSnackBar(const SnackBar(
-                    content: Text("Please connect to Internet")));
+                ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                    content: Text(AppLocalizations.of(context)!.internet)));
               }
             },
             builder: (context, state) {
               return Scaffold(
                 backgroundColor: Theme.of(context).colorScheme.surface,
-                appBar: const PreferredSize(
-                    preferredSize: Size(50, 50),
-                    child: CommonAppBar(screenName: "HomeScreen")),
+                appBar: PreferredSize(
+                    preferredSize: const Size(50, 50),
+                    child: CommonAppBar(
+                        screenName: AppLocalizations.of(context)!.homeScreen)),
                 body: Column(
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
@@ -74,10 +76,9 @@ class _HomeScreenState extends State<HomeScreen> {
                             minimumSize: WidgetStatePropertyAll(Size(300, 50))),
                         onPressed: () async {
                           if (state.status == ConnectivityStatus.disconnected) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content:
-                                        Text("Please connect to Internet")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    AppLocalizations.of(context)!.internet)));
                           } else {
                             context.loaderOverlay.show();
                             context
@@ -86,7 +87,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           }
                         },
                         child: Text(
-                          "Load Products",
+                          AppLocalizations.of(context)!.loadProducts,
                           style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               // color: Colors.white,
@@ -112,9 +113,10 @@ class _HomeScreenState extends State<HomeScreen> {
                                   if (state.status ==
                                       ConnectivityStatus.disconnected) {
                                     ScaffoldMessenger.of(context).showSnackBar(
-                                        const SnackBar(
+                                        SnackBar(
                                             content: Text(
-                                                "Please connect to Internet")));
+                                                AppLocalizations.of(context)!
+                                                    .internet)));
                                   } else {
                                     context.loaderOverlay.show();
                                     // Navigator.push(
@@ -128,7 +130,8 @@ class _HomeScreenState extends State<HomeScreen> {
                                   context.loaderOverlay.hide();
                                 },
                                 child: Text(
-                                  "Load WishList Products",
+                                  AppLocalizations.of(context)!
+                                      .loadWishlistProducts,
                                   style: TextStyle(
                                       color:
                                           Theme.of(context).colorScheme.primary,
@@ -154,10 +157,9 @@ class _HomeScreenState extends State<HomeScreen> {
                         onPressed: () {
                           context.read<PostsBloc>().add(PostsInitialEvent());
                           if (state.status == ConnectivityStatus.disconnected) {
-                            ScaffoldMessenger.of(context).showSnackBar(
-                                const SnackBar(
-                                    content:
-                                        Text("Please connect to Internet")));
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text(
+                                    AppLocalizations.of(context)!.internet)));
                           } else {
                             context.loaderOverlay.show();
                             AutoRouter.of(context)
@@ -166,7 +168,7 @@ class _HomeScreenState extends State<HomeScreen> {
                           context.loaderOverlay.hide();
                         },
                         child: Text(
-                          "Load Posts",
+                          AppLocalizations.of(context)!.loadPosts,
                           style: TextStyle(
                               color: Theme.of(context).colorScheme.primary,
                               // Colors.white,

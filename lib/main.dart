@@ -1,4 +1,7 @@
+// ignore_for_file: unused_element, unused_field
+
 import 'package:counterapp/core/common/bloc/appbar_bloc.dart';
+import 'package:counterapp/core/common/drawerbloc/startup_bloc.dart';
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
 import 'package:counterapp/core/services/notification/notificaton_service.dart';
 import 'package:counterapp/core/theme/app_theme.dart';
@@ -13,10 +16,10 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
-import 'package:flutter_localization/flutter_localization.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hydrated_bloc/hydrated_bloc.dart';
 import 'package:path_provider/path_provider.dart';
+import 'core/common/localizationbloc/locbloc_bloc.dart';
 import 'features/posts/presentation/bloc/posts_bloc.dart';
 import 'flutter_gen/gen_l10n/app_localizations.dart';
 
@@ -49,7 +52,12 @@ class MainApp extends StatefulWidget {
 }
 
 class _MainAppState extends State<MainApp> {
-    // final FlutterLocalization _localization = FlutterLocalization.instance;
+  Locale _locale = const Locale('en');
+  void _changeLanguage(Locale locale) {
+    setState(() {
+      _locale = locale;
+    });
+  }
 
   final _appRouter = AppRouter();
 
@@ -91,6 +99,12 @@ class _MainAppState extends State<MainApp> {
         BlocProvider(
           create: (context) => ThemeBlocBloc(),
         ),
+        BlocProvider(
+          create: (context) => LocBloc(),
+        ),
+        BlocProvider(
+          create: (context) => StartupBloc(),
+        ),
       ],
       child: ScreenUtilInit(
           designSize: const Size(360, 690),
@@ -99,15 +113,24 @@ class _MainAppState extends State<MainApp> {
           builder: (_, child) {
             return BlocBuilder<ThemeBlocBloc, ThemeBlocState>(
               builder: (context, state) {
-                return MaterialApp.router(
-                  theme: state is ThemeChangeBloc ? state.themeData : lightMode,
-                  darkTheme:
-                      state is ThemeChangeBloc ? state.themeData : darkMode,
-                  localizationsDelegates:
-                    AppLocalizations.localizationsDelegates,
-                  supportedLocales:  AppLocalizations.supportedLocales,
-                  debugShowCheckedModeBanner: false,
-                  routerConfig: _appRouter.config(),
+                ThemeData th = lightMode;
+                if (state is ThemeChangeBloc) {
+                  th = state.themeData;
+                }
+                return BlocBuilder<LocBloc, LocState>(
+                  builder: (context, state) {
+                    return MaterialApp.router(
+                      theme: th,
+                      darkTheme: state is ThemeChangeBloc ? th : darkMode,
+                      locale:
+                          state is ChangeState ? state.loc : const Locale("en"),
+                      localizationsDelegates:
+                          AppLocalizations.localizationsDelegates,
+                      supportedLocales: AppLocalizations.supportedLocales,
+                      debugShowCheckedModeBanner: false,
+                      routerConfig: _appRouter.config(),
+                    );
+                  },
                 );
               },
             );

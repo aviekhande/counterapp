@@ -48,7 +48,8 @@ class __MycontainerState extends State<Mycontainer> {
       margin: EdgeInsets.all(10.w),
       decoration: BoxDecoration(
           border: Border.all(color: Colors.black),
-          color: Colors.white,
+          color: Theme.of(context).colorScheme.surface,
+          // color: Colors.white,
           borderRadius: BorderRadius.circular(10)),
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

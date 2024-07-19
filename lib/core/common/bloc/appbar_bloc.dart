@@ -5,9 +5,9 @@ part 'appbar_state.dart';
 
 class AppbarBloc extends Bloc<AppbarEvent, AppbarState> {
   AppbarBloc() : super(AppbarInitial()) {
-    on<clearSearch>(_controllerClear);
+    on<ClearSearch>(_controllerClear);
   }
-  void _controllerClear(clearSearch event, Emitter<AppbarState> emit){
+  void _controllerClear(ClearSearch event, Emitter<AppbarState> emit){
     emit(AppbarInitial());
   }
 }

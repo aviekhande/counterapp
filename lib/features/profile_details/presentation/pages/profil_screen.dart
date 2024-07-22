@@ -1,4 +1,3 @@
-// ignore_for_file: use_build_context_synchronously
 import 'dart:developer';
 import 'dart:io';
 import 'package:auto_route/auto_route.dart';
@@ -24,9 +23,10 @@ class ProfileScreen extends StatefulWidget {
 
 DocumentSnapshot? docSnap;
 class _ProfileScreenState extends State<ProfileScreen> {
-  TextEditingController nameController = TextEditingController();
-  TextEditingController numberController = TextEditingController();
-  TextEditingController emailController = TextEditingController();
+  final TextEditingController nameController = TextEditingController();
+  final TextEditingController numberController = TextEditingController();
+  final TextEditingController emailController = TextEditingController();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   @override
   void initState() {
@@ -36,14 +36,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   String imageUrl = "";
   String imageUrl1 = "";
+
   @override
   Widget build(BuildContext context) {
     return LoaderOverlay(
       child: Scaffold(
         backgroundColor: Theme.of(context).colorScheme.surface,
-        // const Color.fromRGBO(255, 255, 255, 1),
         appBar: PreferredSize(
-          preferredSize: Size.fromHeight(40.h),
+          preferredSize: Size.fromHeight(45.h),
           child: const CommonAppBar(
             screenName: "Profile",
             isProfile: true,
@@ -52,18 +52,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
         body: SingleChildScrollView(
           child: Padding(
             padding: EdgeInsets.symmetric(horizontal: 24.w),
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                SizedBox(
-                  height: 24.h,
-                ),
-                _buildProfileHeader(),
-                SizedBox(height: 20.h),
-                _buildPrimaryInfo(),
-                SizedBox(height: 20.h),
-                _buildUpdateButton(),
-              ],
+            child: Form(
+              key: _formKey,
+              child: BlocBuilder<ProfiledataBloc, ProfiledataState>(
+                builder: (context,state) {
+                  if (state is ProfileDataLoading) {
+              nameController.text = state.docSnap?['name'];
+              numberController.text = state.docSnap?['mobile'];
+              emailController.text = state.docSnap?['email'];
+              imageUrl = state.docSnap?['image'];
+            }
+                  return Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      SizedBox(height: 24.h),
+                      _buildProfileHeader(),
+                      SizedBox(height: 20.h),
+                      _buildPrimaryInfo(),
+                      SizedBox(height: 20.h),
+                      _buildUpdateButton(),
+                    ],
+                  );
+                }
+              ),
             ),
           ),
         ),
@@ -72,81 +83,45 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   bool isValidMobileNumber(String number) {
-    if (number.length != 10) {
-      return false;
-    }
-    final RegExp mobileRegex = RegExp(r'^\+?[1-9]\d{1,14}$');
-    bool ret;
-    try {
-      ret = mobileRegex.hasMatch(number);
-    } catch (e) {
-      return false;
-    }
-    return ret;
+    final RegExp mobileRegex = RegExp(r'^\d{10}$');
+    return mobileRegex.hasMatch(number);
   }
 
   bool isValidUsername(String username) {
-    if (username.length < 3 || username.length > 20) {
-      return false;
-    }
-    final validCharacters = RegExp(r'^[a-zA-Z_]+$');
-    if (!validCharacters.hasMatch(username)) {
-      return false;
-    }
-    if (username.contains(' ')) {
-      return false;
-    }
-    return true;
-  }
-
-  bool isvalidedata() {
-    if (nameController.text.isEmpty ||
-        numberController.text.isEmpty ||
-        emailController.text.isEmpty ||
-        !isValidMobileNumber(numberController.text) ||
-        !isValidUsername(nameController.text)) {
-      return false;
-    }
-    return true;
+    final validCharacters = RegExp(r'^[a-zA-Z_" "]+$');
+    return username.length >= 3 &&
+           username.length <= 20 &&
+           validCharacters.hasMatch(username)&&
+           username.contains(' ');
   }
 
   Widget _buildProfileHeader() {
     return Column(
       children: [
         BlocConsumer<ProfiledataBloc, ProfiledataState>(
-            listener: (context, state) {
-          if (state is ProfileImageLoading) {
-            imageUrl1 = state.image;
-          }
-          if (state is ProfileDataLoading) {
-            nameController.text = state.docSnap?['name'];
-            numberController.text = state.docSnap?['mobile'];
-            emailController.text = state.docSnap?['email'];
-            imageUrl = state.docSnap?['image'];
-          }
-        }, builder: (context, state) {
-          if (state is ProfileDataLoading) {
-            nameController.text = state.docSnap?['name'];
-            numberController.text = state.docSnap?['mobile'];
-            emailController.text = state.docSnap?['email'];
-            imageUrl = state.docSnap?['image'];
-          }
-          if (state is ProfileImageLoading) {
-            imageUrl1 = state.image;
-          }
-          return Builder(builder: (context) {
+          listener: (context, state) {
+            if (state is ProfileImageLoading) {
+              imageUrl1 = state.image;
+            }
+            if (state is ProfileDataLoading) {
+              nameController.text = state.docSnap?['name'];
+              numberController.text = state.docSnap?['mobile'];
+              emailController.text = state.docSnap?['email'];
+              imageUrl = state.docSnap?['image'];
+            }
+          },
+          builder: (context, state) {
             return SizedBox(
-                height: 50.h,
-                width: double.infinity,
-                child: imageUrl.isEmpty
-                    ? SvgPicture.asset(
-                        "assets/images/Isolation_Mode.svg",
-                      )
-                    : state is ProfileImageLoading
-                        ? Image.file(File(state.image))
-                        : Image.network(imageUrl));
-          });
-        }),
+              height: 50.h,
+              width: double.infinity,
+              child: imageUrl.isEmpty
+                  ? SvgPicture.asset("assets/images/Isolation_Mode.svg")
+                  : state is ProfileImageLoading
+                      ? Image.file(File(state.image))
+                      : Image.network(imageUrl),
+            );
+          },
+        ),
         const SizedBox(height: 10),
         GestureDetector(
           onTap: () async {
@@ -157,8 +132,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
             height: 34.h,
             decoration: BoxDecoration(
               border: Border.all(
-                color: Theme.of(context).colorScheme.surface ==
-                        Colors.grey.shade200
+                color: Theme.of(context).colorScheme.surface == Colors.grey.shade200
                     ? const Color.fromRGBO(23, 55, 175, 1)
                     : Colors.grey,
               ),
@@ -169,16 +143,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
               children: [
                 SvgPicture.asset(
                   "assets/images/Upload.svg",
-                  color: Theme.of(context).colorScheme.surface ==
-                          Colors.grey.shade200
+                  color: Theme.of(context).colorScheme.surface == Colors.grey.shade200
                       ? const Color.fromRGBO(23, 55, 175, 1)
                       : Colors.grey,
                 ),
                 Text(
                   "Upload image",
                   style: GoogleFonts.poppins(
-                    color: Theme.of(context).colorScheme.surface ==
-                            Colors.grey.shade200
+                    color: Theme.of(context).colorScheme.surface == Colors.grey.shade200
                         ? const Color.fromRGBO(23, 55, 175, 1)
                         : Colors.grey,
                     fontSize: 10.sp,
@@ -202,46 +174,70 @@ class _ProfileScreenState extends State<ProfileScreen> {
         Text(
           "Primary info",
           style: GoogleFonts.poppins(
-            // color: const Color.fromRGBO(29, 18, 18, 0.75),
             fontSize: 10.sp,
             fontWeight: FontWeight.w500,
           ),
         ),
         const SizedBox(height: 20),
         _buildTextField(
-          "Name",
-          nameController,
-          "Enter your name",
+          label: "Name",
+          controller: nameController,
+          hint: "Enter your name",
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter your name';
+            }
+            if (!isValidUsername(value)) {
+              return 'Invalid username';
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 20),
         _buildTextField(
-          "Mobile Number",
-          numberController,
-          "Enter your phone number",
+          label: "Mobile Number",
+          controller: numberController,
+          hint: "Enter your phone number",
+          keyboardType: TextInputType.number,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter your phone number';
+            }
+            if (!isValidMobileNumber(value)) {
+              return 'Invalid phone number';
+            }
+            return null;
+          },
         ),
         const SizedBox(height: 20),
         _buildTextField(
-          "Email",
-          emailController,
-          "Enter your email address",
+          label: "Email",
+          controller: emailController,
+          hint: "Enter your email address",
+          readOnly: true,
+          validator: (value) {
+            if (value == null || value.isEmpty) {
+              return 'Please enter your email address';
+            }
+            return null;
+          },
         ),
       ],
     );
   }
 
-  Widget _buildTextField(
-    String label,
-    TextEditingController controller,
-    String hint,
-  ) {
+  Widget _buildTextField({
+    required String label,
+    required TextEditingController controller,
+    required String hint,
+    TextInputType keyboardType = TextInputType.text,
+    bool readOnly = false,
+    required String? Function(String?) validator,
+  }) {
     return BlocConsumer<ProfiledataBloc, ProfiledataState>(
       listener: (context, state) {
         if (state is ProfileDataLoading) {
-          // print("In ProfileLoadinc");
-          // nameController.text = state.docSnap?['name'];
-          // numberController.text = state.docSnap?['mobile'];
-          // emailController.text = state.docSnap?['email'];
-          // imageUrl = state.docSnap?['image'];
+          // Handle loading state
         }
       },
       builder: (context, state) {
@@ -251,46 +247,37 @@ class _ProfileScreenState extends State<ProfileScreen> {
             Text(
               label,
               style: GoogleFonts.poppins(
-                // color: const Color.fromRGBO(18, 23, 29, 1),
                 fontSize: 12.sp,
                 fontWeight: FontWeight.w400,
               ),
             ),
             const SizedBox(height: 10),
-            Container(
-              padding: EdgeInsets.only(left: 16.w),
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(4),
-                color: Theme.of(context).colorScheme.surface !=
-                        Colors.grey.shade200
-                    ? Colors.grey
-                    : const Color.fromRGBO(18, 23, 29, 0.05),
-                //  const Color.fromRGBO(18, 23, 29, 0.05),
-                border:
-                    Border.all(color: const Color.fromRGBO(18, 23, 29, 0.1)),
+            TextFormField(
+              keyboardType: keyboardType,
+              readOnly: readOnly,
+              controller: controller,
+              decoration: InputDecoration(
+                contentPadding: EdgeInsets.symmetric(horizontal: 16.w, vertical: 12.h),
+                border: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide: BorderSide(
+                    color: Theme.of(context).colorScheme.surface == Colors.grey.shade200
+                        ? Colors.blue
+                        : Colors.grey,
+                  ),
+                ),
+                focusedBorder: OutlineInputBorder(
+                  borderRadius: BorderRadius.circular(4),
+                  borderSide:const  BorderSide(
+                    color: Colors.blue,
+                  ),
+                ),
+                hintText: hint,
+                hintStyle: GoogleFonts.poppins(
+                  fontSize: 12.sp,
+                ),
               ),
-              child: Row(
-                children: [
-                  const SizedBox(width: 10),
-                  Expanded(
-                    child: TextFormField(
-                      keyboardType: label == "Mobile Number"
-                          ? TextInputType.number
-                          : TextInputType.text,
-                      readOnly: label == "Email",
-                      controller: controller,
-                      decoration: InputDecoration(
-                        border: InputBorder.none,
-                        hintText: hint,
-                        hintStyle: GoogleFonts.poppins(
-                          fontSize: 12.sp,
-                          color: const Color.fromRGBO(18, 23, 29, 0.25),
-                        ),
-                      ),
-                    ),
-                  )
-                ],
-              ),
+              validator: validator,
             ),
           ],
         );
@@ -301,12 +288,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
   Widget _buildUpdateButton() {
     return Column(
       children: [
-        const Divider(
-          color: Color.fromRGBO(29, 18, 18, 0.15),
-        ),
+        const Divider(color: Color.fromRGBO(29, 18, 18, 0.15)),
         GestureDetector(
           onTap: () async {
-            if (isvalidedata()) {
+            if (_formKey.currentState?.validate() ?? false) {
               await FirebaseFirestore.instance
                   .collection("users")
                   .doc(SessionController().userId)
@@ -319,7 +304,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
               });
               context.read<ProfiledataBloc>().add(ProfileInfoFetch());
               ScaffoldMessenger.of(context)
-                  .showSnackBar(const SnackBar(content: Text("Data Save")));
+                  .showSnackBar(const SnackBar(content: Text("Data Saved")));
             } else {
               ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(content: Text("Enter Correct Details")));
@@ -338,15 +323,12 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
-        SizedBox(
-          height: 20.h,
-        ),
+        SizedBox(height: 20.h),
       ],
     );
   }
 
-  Future<String> showOptionBottomSheet() async {
-    var check = "";
+  Future<void> showOptionBottomSheet() async {
     showModalBottomSheet<void>(
       context: context,
       builder: (BuildContext context) {
@@ -358,27 +340,23 @@ class _ProfileScreenState extends State<ProfileScreen> {
               mainAxisSize: MainAxisSize.min,
               children: <Widget>[
                 ElevatedButton(
-                  style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                          Color.fromARGB(255, 114, 182, 214))),
-                  child: const Icon(
-                    Icons.camera_alt,
-                    color: Colors.black,
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                      const Color.fromARGB(255, 114, 182, 214),
+                    ),
                   ),
-                  onPressed: () async => await upLoadPhoto("cam"),
+                  child: const Icon(Icons.camera_alt, color: Colors.black),
+                  onPressed: () async => await uploadPhoto("cam"),
                 ),
-                SizedBox(
-                  width: 30.w,
-                ),
+                SizedBox(width: 30.w),
                 ElevatedButton(
-                  style: const ButtonStyle(
-                      backgroundColor: WidgetStatePropertyAll(
-                          Color.fromARGB(255, 114, 182, 214))),
-                  child: const Icon(
-                    Icons.photo,
-                    color: Colors.black,
+                  style: ButtonStyle(
+                    backgroundColor: WidgetStateProperty.all(
+                      const Color.fromARGB(255, 114, 182, 214),
+                    ),
                   ),
-                  onPressed: () async => await upLoadPhoto("gallery"),
+                  child: const Icon(Icons.photo, color: Colors.black),
+                  onPressed: () async => await uploadPhoto("gallery"),
                 ),
               ],
             ),
@@ -386,18 +364,19 @@ class _ProfileScreenState extends State<ProfileScreen> {
         );
       },
     );
-    return check;
   }
 
-  Future<void> upLoadPhoto(option) async {
+  Future<void> uploadPhoto(String option) async {
     final ImagePicker picker = ImagePicker();
     String uniqueFileName = DateTime.now().microsecondsSinceEpoch.toString();
     XFile? file = await picker.pickImage(
         source: option == "cam" ? ImageSource.camera : ImageSource.gallery);
     AutoRouter.of(context).popForced();
+    if (file == null) return;
+
     Reference referenceToUpload =
         FirebaseStorage.instance.ref().child('images').child(uniqueFileName);
-    if (file == null) return;
+
     try {
       context.read<ProfiledataBloc>().add(ProfileUpdate(image: file.path));
       context.loaderOverlay.show();

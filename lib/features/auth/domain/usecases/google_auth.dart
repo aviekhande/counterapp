@@ -27,13 +27,23 @@ class FirebaseServices {
         log("${auth.currentUser}");
       }
       if (auth.currentUser != null) {
-        await _fireStore.collection("users").doc(auth.currentUser?.uid).set({
+        try {
+      DocumentSnapshot docSnapshot = await _fireStore.collection("users").doc(auth.currentUser?.uid).get();
+      if(!docSnapshot.exists){
+         await _fireStore.collection("users").doc(auth.currentUser?.uid).set({
           'name':googleSignInAccount!.displayName ,
           'uid': auth.currentUser?.uid,
           'email': googleSignInAccount.email,
           "image": "",
           "mobile": ""
         });
+      }
+
+    } catch (e) {
+      print('Error checking document: $e');
+      return false;
+    }
+       
         return true;
         
       }

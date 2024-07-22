@@ -10,6 +10,7 @@ import "package:flutter_screenutil/flutter_screenutil.dart";
 import "package:flutter_svg/flutter_svg.dart";
 import "package:google_sign_in/google_sign_in.dart";
 
+import "../../../../core/common/drawerbloc/startup_bloc.dart";
 import "../../../../core/services/network/bloc/internet_bloc/internet_bloc.dart";
 import "../../../../core/services/notification/notificaton_service.dart";
 import "../../domain/usecases/authentication.dart";
@@ -59,7 +60,7 @@ class _LoginScreenState extends State {
     if (res == "success") {
       LocalNotificationService().uploadFcmToken();
       // navigate to the home screen
-      AutoRouter.of(context).push(const SplashScreenRoute());
+      AutoRouter.of(context).push(const HomeScreenRoute());
       emailController.clear();
       passwordController.clear();
       showSnackBar(context, "Login successful");
@@ -159,6 +160,7 @@ class _LoginScreenState extends State {
                                   content: Text("Please connect to Internet")));
                         } else {
                           loginUser(context);
+                          context.read<StartupBloc>().add(CheckEvent());
                           validkey.currentState!.validate();
                         }
 

@@ -3,13 +3,14 @@ import 'dart:developer';
 import 'package:auto_route/annotations.dart';
 import 'package:counterapp/core/configs/components/appbar_widget.dart';
 import 'package:counterapp/core/services/network/bloc/internet_bloc/internet_bloc.dart';
-import 'package:counterapp/features/product_details/data/data_sources/remote/getproduct_api.dart';
+// import 'package:counterapp/features/product_details/data/data_sources/remote/getproduct_api.dart';
 import 'package:counterapp/features/product_details/presentation/bloc/product_bloc/product_bloc.dart';
 import 'package:counterapp/features/product_details/presentation/widgets/productcontainer.dart';
 import 'package:counterapp/flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:dio/dio.dart';
+// import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/configs/components/drawer_widget.dart';
 
@@ -26,61 +27,29 @@ class _ProductScreenState extends State<ProductScreen> {
   final scrollController = ScrollController();
   @override
   void initState() {
+    context.read<ProductBloc>().add(const ProductEvent());
     super.initState();
-    scrollController.addListener(_scrollListener);
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: const Size(10, 50),
+          preferredSize: Size.fromHeight(45.h),
           child:
               CommonAppBar(screenName: AppLocalizations.of(context)!.product)),
-      // AppBar(
-      //     backgroundColor: Colors.blue,
-      //     title: const Text(
-      //       "Product",
-      //       style: TextStyle(color: Colors.white),
-      //     )),
       body: BlocBuilder<InternetBloc, InternetStatus>(
         builder: (context, state) {
           return state.status == ConnectivityStatus.connected
-              ? BlocConsumer<ProductBloc, ProductState>(
-                  listener: (context, state) {
-                    if (state is ProductLoaded) {
-                      ScaffoldMessenger.of(context).showSnackBar(
-                          const SnackBar(content: Text("all Data Fetch")));
-                    }
-                  },
+              ? BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
-                    return _body(state);
-                    // return FutureBuilder(
-                    //     future: GetProducts().getProductData(),
-                    //     builder: (context, snapshot) {
-                    // if (snapshot.hasData) {
-                    // state as ProductLoaded;
-                    // return ListView.builder(
-                    //     controller: scrollController,
-                    //     itemCount: isLoadingMore
-                    //         ? state.product.length + 1
-                    //         : state.product.length,
-                    //     itemBuilder: (context, index) {
-                    //       return index < state.product.length
-                    //           ? Mycontainer(productData: state.product[index])
-                    //           : const Center(
-                    //               child: CircularProgressIndicator(
-                    //                 color: Colors.black,
-                    //               ),
-                    //             );
-                    //     });
-                    // }
-                    // else {
-                    // return const Center(
-                    //   child: CircularProgressIndicator(),
-                    // );
-                    // }
-                    // });
+                    return state is ProductLoaded
+                        ? _products(state)
+                        : const Center(
+                            child: CircularProgressIndicator(
+                              color: Colors.blue,
+                            ),
+                          );
                   },
                 )
               : const Center(
@@ -92,64 +61,11 @@ class _ProductScreenState extends State<ProductScreen> {
     );
   }
 
-  FutureBuilder _body(state) {
-    final apiService =
-        ApiService(Dio(BaseOptions(contentType: "application/json")));
-    return FutureBuilder(
-      future: apiService.getProductData(),
-      builder: (context, snapshot) {
-        if (snapshot.connectionState == ConnectionState.done) {
-          state as ProductLoaded;
-          return _products(state.product, state);
-          // ListView.builder(
-          //     controller: scrollController,
-          //     itemCount: isLoadingMore
-          //         ? state.product.length + 1
-          //         : state.product.length,
-          //     itemBuilder: (context, index) {
-          //       return index < state.product.length
-          //           ? Mycontainer(productData: state.product[index])
-          //           : const Center(
-          //               child: CircularProgressIndicator(
-          //                 color: Colors.black,
-          //               ),
-          //             );
-          //     });
-        } else {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        }
-      },
-    );
-  }
-
-  Widget _products(List<dynamic> products, state) {
+  Widget _products(state) {
     return ListView.builder(
-        controller: scrollController,
         itemCount: state.product.length,
-        // isLoadingMore ? state.product.length + 1 : state.product.length,
         itemBuilder: (context, index) {
-          return index < state.product.length
-              ? Mycontainer(productData: state.product[index])
-              : const Center(
-                  child: CircularProgressIndicator(
-                    color: Colors.black,
-                  ),
-                );
+          return Mycontainer(productData: state.product[index]);
         });
-  }
-
-  void _scrollListener() async {
-    if (scrollController.position.pixels ==
-        scrollController.position.maxScrollExtent) {
-      // page = page + 1;
-      // setState(() {
-      //   isLoadingMore = true;
-      // });
-      // await GetProducts().getProductData();
-      // context.read<ProductBloc>().add(const ProductEvent());
-      log("Call Api>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
-    }
   }
 }

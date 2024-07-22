@@ -28,7 +28,6 @@ class _CommonDrawerState extends State<CommonDrawer> {
   void initState() {
     super.initState();
     context.read<ProfiledataBloc>().add(ProfileInfoFetch());
-    context.read<StartupBloc>().add(CheckEvent());
   }
 
   @override
@@ -133,6 +132,7 @@ class _CommonDrawerState extends State<CommonDrawer> {
                                             children: [
                                               GestureDetector(
                                                 onTap: () {
+                                                  log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
                                                   context
                                                       .read<ThemeBlocBloc>()
                                                       .add(ThemeBlocEvent(

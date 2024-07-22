@@ -32,7 +32,7 @@ class _PostScreenState extends State<PostScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: PreferredSize(
-          preferredSize: Size.fromHeight(70.h),
+          preferredSize: Size.fromHeight(80.h),
           child: CommonAppBar(screenName: AppLocalizations.of(context)!.posts)),
       body: BlocConsumer<PostsBloc, PostsState>(
         listener: (context, state) {
@@ -60,7 +60,7 @@ class _PostScreenState extends State<PostScreen> {
                   },
                 )
               : const Center(
-                  child: CircularProgressIndicator(),
+                  child: CircularProgressIndicator(color: Colors.blue,),
                 );
         },
       ),

@@ -97,7 +97,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
                   : Column(
                       children: [
                         SizedBox(
-                          height: 2.h,
+                          height: 6.h,
                         ),
                         GestureDetector(
                           onTap: () {
@@ -134,8 +134,8 @@ class _CommonAppBarState extends State<CommonAppBar> {
                           children: [
                             Container(
                               // padding: EdgeInsets.all(5),
-                              height: 30.h,
-                              width: 270.w,
+                              height: 35.h,
+                              width: 260.w,
                               decoration: BoxDecoration(
                                   color: Theme.of(context).colorScheme.surface,
                                   borderRadius: const BorderRadius.all(
@@ -146,7 +146,7 @@ class _CommonAppBarState extends State<CommonAppBar> {
                                     width: 5.w,
                                   ),
                                   SizedBox(
-                                    width: 220.w,
+                                    width: 207.w,
                                     child:
                                         BlocConsumer<AppbarBloc, AppbarState>(
                                       listener: (context, state) {

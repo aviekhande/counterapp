@@ -19,7 +19,7 @@ class AppRouter extends $AppRouter {
             ? AutoRoute(
                 page: LoginScreenRoute.page,
               )
-            : AutoRoute(page: LoginScreenRoute.page, path: "/"),
+            : AutoRoute(page: LoginScreenRoute.page,),
         AutoRoute(
           page: SignUpScreenRoute.page,
         ),
@@ -35,7 +35,7 @@ class AppRouter extends $AppRouter {
         ),
         isLogin() != null
             ? AutoRoute(page: SplashScreenRoute.page, path: "/")
-            : AutoRoute(page: SplashScreenRoute.page),
+            : AutoRoute(page: SplashScreenRoute.page, path: "/"),
         AutoRoute(page: ProductScreenRoute.page),
         AutoRoute(page: WishListScreenRoute.page),
       ];

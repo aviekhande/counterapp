@@ -121,7 +121,7 @@ class _MainAppState extends State<MainApp> {
                   builder: (context, state) {
                     return MaterialApp.router(
                       theme: th,
-                      darkTheme: state is ThemeChangeBloc ? th : darkMode,
+                      darkTheme: state is ThemeChangeBloc ? ThemeData.dark() : th,
                       locale:
                           state is ChangeState ? state.loc : const Locale("en"),
                       localizationsDelegates:

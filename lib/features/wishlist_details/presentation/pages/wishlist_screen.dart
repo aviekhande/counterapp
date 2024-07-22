@@ -4,6 +4,7 @@ import 'package:counterapp/features/wishlist_details/presentation/bloc/wishlist_
 import 'package:counterapp/features/wishlist_details/presentation/widgets/wishlistcontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../../../core/configs/components/appbar_widget.dart';
 import '../../../../flutter_gen/gen_l10n/app_localizations.dart';
@@ -36,7 +37,7 @@ class _ProductScreenState extends State<WishListScreen> {
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: PreferredSize(
-            preferredSize: const Size(10, 50),
+          preferredSize:Size.fromHeight(45.h),
             child: CommonAppBar(
                 screenName: AppLocalizations.of(context)!.wishlistProduct)),
         body: BlocBuilder<InternetBloc, InternetStatus>(

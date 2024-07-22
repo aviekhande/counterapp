@@ -1,7 +1,9 @@
 import 'dart:developer';
 import 'package:auto_route/auto_route.dart';
 import 'package:counterapp/core/configs/components/appbar_widget.dart';
+import 'package:counterapp/core/configs/components/commonbottomnavigationbar.dart';
 import 'package:counterapp/core/configs/components/drawer_widget.dart';
+import 'package:counterapp/features/posts/presentation/widgets/post_shimmer.dart';
 import 'package:counterapp/features/posts/presentation/widgets/postcontainer.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -43,7 +45,9 @@ class _PostScreenState extends State<PostScreen> {
         },
         builder: (context, state) {
           return state is PostsFetch
-              ? ListView.builder(
+              ?
+              //  const ShimmerMyContainer()
+              ListView.builder(
                   controller: scrollController,
                   itemCount: isLoadingMore
                       ? state.posts!.length + 1
@@ -59,12 +63,16 @@ class _PostScreenState extends State<PostScreen> {
                           );
                   },
                 )
-              : const Center(
-                  child: CircularProgressIndicator(color: Colors.blue,),
-                );
+              : const ShimmerMyContainer();
+          //  const Center(
+          //     child: CircularProgressIndicator(
+          //       color: Colors.blue,
+          //     ),
+          //   );
         },
       ),
       drawer: const CommonDrawer(),
+      bottomNavigationBar: const Commonbottomnavigationbar(),
     );
   }
 

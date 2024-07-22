@@ -9,6 +9,7 @@ import 'package:counterapp/features/product_details/presentation/bloc/product_bl
 // import 'package:counterapp/core/routes/routes_import.gr.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
@@ -23,12 +24,48 @@ class HomeScreen extends StatefulWidget {
 
 class _HomeScreenState extends State<HomeScreen> {
   late InternetBloc internetBloc;
+  late FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin;
+
   @override
   void initState() {
     internetBloc = context.read<InternetBloc>();
     internetBloc.checkInternet();
     internetBloc.trackConnectivityChange();
+
+    flutterLocalNotificationsPlugin = FlutterLocalNotificationsPlugin();
+
+    const AndroidInitializationSettings initializationSettingsAndroid =
+        AndroidInitializationSettings('@mipmap/ic_launcher');
+    const InitializationSettings initializationSettings =
+        InitializationSettings(
+      android: initializationSettingsAndroid,
+    );
+    flutterLocalNotificationsPlugin.initialize(initializationSettings);
+    _showNotification();
     super.initState();
+  }
+
+  Future<void> _showNotification() async {
+    const AndroidNotificationDetails androidPlatformChannelSpecifics =
+        AndroidNotificationDetails(
+      'your_channel_id',
+      'your_channel_name',
+      importance: Importance.max,
+      priority: Priority.high,
+      showWhen: false,
+    );
+
+    const NotificationDetails platformChannelSpecifics = NotificationDetails(
+      android: androidPlatformChannelSpecifics,
+    );
+
+    await flutterLocalNotificationsPlugin.show(
+      0,
+      'Welcome',
+      'Thanks for logging in!',
+      platformChannelSpecifics,
+      payload: 'item x',
+    );
   }
 
   @override
@@ -66,7 +103,7 @@ class _HomeScreenState extends State<HomeScreen> {
                     preferredSize: Size.fromHeight(45.h),
                     child: CommonAppBar(
                         screenName: AppLocalizations.of(context)!.homeScreen)),
-                // body: 
+                // body:
                 // Column(
                 //   mainAxisAlignment: MainAxisAlignment.center,
                 //   children: [
@@ -181,9 +218,9 @@ class _HomeScreenState extends State<HomeScreen> {
                 //     })
                 //   ],
                 // ),
-                // 
+                //
                 drawer: const CommonDrawer(),
-                bottomNavigationBar: const Commonbottomnavigationbar(),
+                bottomNavigationBar:const Commonbottomnavigationbar(),
               );
             },
           )),

@@ -14,6 +14,8 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:loader_overlay/loader_overlay.dart';
 
+import '../../../../core/configs/components/commonbottomnavigationbar.dart';
+
 @RoutePage()
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -78,6 +80,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
             ),
           ),
         ),
+                        bottomNavigationBar: const Commonbottomnavigationbar(),
+
+
       ),
     );
   }

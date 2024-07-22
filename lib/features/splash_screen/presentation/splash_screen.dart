@@ -20,11 +20,12 @@ class SplashScreen extends StatefulWidget {
 class _SplashScreenState extends State<SplashScreen> {
   @override
   void initState() {
-        context.read<StartupBloc>().add(CheckEvent());
-    
+    context.read<StartupBloc>().add(CheckEvent());
+
     super.initState();
   }
- User? isLogin() {
+
+  User? isLogin() {
     FirebaseAuth auth = FirebaseAuth.instance;
     final user = auth.currentUser;
     if (user != null) {
@@ -32,16 +33,20 @@ class _SplashScreenState extends State<SplashScreen> {
     }
     return user;
   }
+
   @override
   Widget build(BuildContext context) {
-    return BlocListener<StartupBloc,StartupState>(
-      listener: (context,state) {
-        if(state is StartupCheck){
-          Timer(const Duration(seconds: 2),
-        () => AutoRouter.of(context).push(isLogin() !=null ? const HomeScreenRoute():const LoginScreenRoute()));
-        }
-      },
-        child :Scaffold(
+    return BlocListener<StartupBloc, StartupState>(
+        listener: (context, state) {
+          if (state is StartupCheck) {
+            Timer(const Duration(seconds: 2), () {
+              AutoRouter.of(context).replace(isLogin() != null
+                  ? const HomeScreenRoute()
+                  : const LoginScreenRoute());
+            });
+          }
+        },
+        child: Scaffold(
           body: Center(
             child: Column(
               mainAxisAlignment: MainAxisAlignment.center,
@@ -66,6 +71,5 @@ class _SplashScreenState extends State<SplashScreen> {
             ),
           ),
         ));
-      }
-    
   }
+}

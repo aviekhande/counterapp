@@ -12,7 +12,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
+import '../../../../core/configs/components/commonbottomnavigationbar.dart';
 import '../../../../core/configs/components/drawer_widget.dart';
+import '../widgets/product_shimmer.dart';
 
 @RoutePage()
 class ProductScreen extends StatefulWidget {
@@ -44,12 +46,14 @@ class _ProductScreenState extends State<ProductScreen> {
               ? BlocBuilder<ProductBloc, ProductState>(
                   builder: (context, state) {
                     return state is ProductLoaded
+                        // ? const ShimmerMyContainer()
                         ? _products(state)
-                        : const Center(
-                            child: CircularProgressIndicator(
-                              color: Colors.blue,
-                            ),
-                          );
+                        : const ShimmerMyContainer();
+                    //  const Center(
+                    //     child: CircularProgressIndicator(
+                    //       color: Colors.blue,
+                    //     ),
+                    //   );
                   },
                 )
               : const Center(
@@ -58,6 +62,8 @@ class _ProductScreenState extends State<ProductScreen> {
         },
       ),
       drawer: const CommonDrawer(),
+                     bottomNavigationBar: const Commonbottomnavigationbar(),
+
     );
   }
 
